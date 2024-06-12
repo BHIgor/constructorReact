@@ -7,6 +7,7 @@ import { Header } from './Components/Header/Header';
 import { FooterLine } from './Components/FooterLine/FooterLine';
 import { Menu } from './Components/Menu/Menu';
 import { Settings } from './Components/Menu/Settings/Settings';
+import { Personalization } from './Components/Menu/Personalization/Personalization';
 
 const search = window.location.search
 const tg = window.Telegram.WebApp;
@@ -61,6 +62,7 @@ function App() {
             <Routes>      
             <Route path='/' exact element={<Mainpage/>}/>
             <Route path='/Settings' exact element={<Settings/>}/>
+            <Route path='/Personalization' exact element={<Personalization/>}/>
             
           </Routes>
         </div>
