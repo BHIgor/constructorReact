@@ -48,7 +48,7 @@ export const Settings = () => {
 
         setTimeout(() => {
           setStatus('no')
-        }, 4000)
+        }, 5000)
         return response.json();
       })
       .catch(e =>{
@@ -56,7 +56,7 @@ export const Settings = () => {
 
         setTimeout(() => {
           setStatus('no')
-        }, 4000)
+        }, 5000)
 
         console.log(e)
         return false
@@ -106,6 +106,8 @@ export const Settings = () => {
               className="settings__body--text"
               defaultValue={dataDB.listBot[0].name}
               onChange={handleName}
+              maxLength={14}
+              placeholder='Максимум 14 символів'
             />
 
             <div className="settings__body--title">
