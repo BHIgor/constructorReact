@@ -1,0 +1,17 @@
+@mixin titleFont() {
+  font-family: Poppins, sans-serif;
+  src: url(../fonts/Poppins-Bold.ttf);
+}
+
+@mixin menuFont() {
+  font-family: Rubik, sans-serif;
+  src: url(../fonts/Rubik-BoldItalic.ttf);
+}
+
+@mixin productFont() {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+
+}

@@ -1,0 +1,56 @@
+@import '../mixin/mixins.scss';
+
+.footerLine{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+
+  &--container{
+    display: flex;
+    z-index: 2;
+    background-color: white;
+    opacity: 0.9;
+    height: 60px;
+    align-items: center;
+    justify-content: space-around;
+  }
+  &--size{
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+    @include iconPosition();
+  }
+
+  &--home{
+    background-image: url(../../images/menu/main.svg);
+  }
+
+  &--catalog{
+    background-image: url(../../images/menu/katalog.svg);
+  }
+
+  &--cart{
+    background-image: url(../../images/menu/cart-menu.svg);
+    position: relative;
+  }
+
+  &--menu{
+    background-image: url(../../images/burger.svg);
+  }
+
+  &--count {
+    color: white;
+    background-color: red;
+    position: absolute;
+    text-align: center;
+    height: 16px;
+    border-radius: 5px;
+    line-height: 16px;
+    width: 17px;
+    right: -16px;
+    top: -5px;
+  }
+
+}

@@ -1,0 +1,182 @@
+@import '../../fonts/fonts.scss';
+@import '../mixin/mixins.scss';
+
+.menu {
+  height: 100vh;
+  position: fixed;
+  border-top-right-radius: 30px;
+  background-color: white;
+  top: 0;
+  width: 280px;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s;
+  transform: translateX(-100%);
+  -webkit-transition: all 0.3s ease;
+  -webkit-transition-property: all 0.2s;
+
+  &__close {
+    opacity: 0;
+    width: 300%;
+    height: 100vh;
+    display: block;
+    position: fixed;
+    top: 0;
+    right: -300%;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+  }
+
+  &__title{
+      border-top-right-radius: 30px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      background-color: black;
+      opacity: 1;
+      font-size: 25px;
+
+      font-weight: bold;
+ 
+      @include titleFont()
+  }
+
+  &__container {
+    padding: 18px 22px;
+    overflow-y: scroll;
+    height: 100%;
+    margin-bottom: 30px;
+
+  }
+
+  &__lineHorizont {
+    width: 160px;
+    border: 1px solid rgb(45, 45, 45);
+    border-radius: 2px;
+
+  }
+
+  &__item {
+    display: flex;
+    gap: 15px; 
+    height: 35px;
+    padding-left: 5px; 
+    align-items: center;
+    
+  }
+
+  &__link{
+    cursor: pointer;
+    border: none;
+    width: 235px;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+
+  &__icon {
+    text-decoration: none;
+    height: 15px;
+    width: 15px;
+
+    @include iconPosition();
+
+   &--main{
+      background-image: url(../../images/menu/main.svg);
+    }
+
+    &--katalog{
+      background-image: url(../../images/menu/katalog.svg);
+    }
+
+    &--cart{
+      background-image: url(../../images/menu/cart-menu.svg);
+    }
+
+    &--checkout{
+      background-image: url(../../images/menu/checkout.svg);
+    }
+
+    &--help{
+      background-image: url(../../images/menu/help.svg);
+    }
+
+    &--about{
+      background-image: url(../../images/menu/about.svg);
+    }
+
+    &--garant{
+      background-image: url(../../images/menu/garant.svg);
+    }
+
+    &--delivery{
+      background-image: url(../../images/menu/delivery.svg);
+    }
+
+    &--obmin{
+      background-image: url(../../images/menu/obmin.svg);
+    }
+    
+    &--contacts{
+      background-image: url(../../images/menu/contacts.svg);
+    }
+
+    &--like{
+      background-image: url(../../images/like.svg);
+    }
+
+    &--time{
+      background-image: url(../../images/menu/time.svg);
+    }
+
+    &--pay{
+      background-image: url(../../images/menu/pay.svg);
+    }
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 18px;
+    line-height: 15px;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 100px;
+      
+
+    @include menuFont()
+  }
+
+  &__list {
+
+    text-decoration: none;
+    color: black;
+
+    &--link {
+      font-weight: 700;
+      font-size: 10px;
+      line-height: 27px;
+      text-decoration: none;
+    }
+
+    &--empty{
+      background-color: red;
+      color: white;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 20px;
+      border-radius: 50%;
+    }
+
+  }
+}
+
+.active-menu{
+  opacity: 1;
+  transform: translateX(0%);
+  pointer-events: all;
+  box-shadow: 0 0 0 200vh rgba(0, 0, 0, .5);
+}
