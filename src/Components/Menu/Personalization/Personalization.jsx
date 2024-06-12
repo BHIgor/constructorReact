@@ -61,7 +61,7 @@ export const Personalization = () => {
   useEffect(() => {
     setColor((dataDB.length === 0) ? '' : dataDB.settings[0].clHeader)
     
-  }, [dataDB.length, dataDB.listBot])
+  }, [dataDB.length, dataDB.listBot, dataDB.settings])
 
 
   const handleColorHeader = (newColor) => {
