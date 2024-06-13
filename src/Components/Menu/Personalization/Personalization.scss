@@ -1,0 +1,64 @@
+@import './../../mixin/mixins.scss';
+@import './../../../fonts/fonts.scss';
+
+
+.personaliz{
+  @include productFont();
+  padding-bottom: 70px;
+
+  &__body{
+    margin-top: 15px;
+    width: 300px;
+
+
+    &--title{
+      font-size: 13px;
+      color: gray;
+    }
+
+    &--flex{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    &--block{
+      width: 80px;
+      height: 30px;
+      border-radius: 5px;
+    }
+
+    &--button{
+      font-size: 14px;
+      padding: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    &--gamma{
+      display: grid;
+      justify-content: center;
+      padding-top: 10px;
+    }
+
+    &--submit{
+      padding: 5px;
+      height: 35px;
+      width: 200px;
+      font-size: 16px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+      border: none;
+      color: black;
+
+      @include productFont();
+
+    }
+
+  }
+}
