@@ -8,6 +8,11 @@ import { FooterLine } from './Components/FooterLine/FooterLine';
 import { Menu } from './Components/Menu/Menu';
 import { Settings } from './Components/Menu/Settings/Settings';
 import { Personalization } from './Components/Menu/Personalization/Personalization';
+import { Grafik } from './Components/Menu/Grafik/Grafik';
+import { Obmin } from './Components/Menu/Obmin/Obmin';
+import { Garant } from './Components/Menu/Garant/Garant';
+import { About } from './Components/Menu/About/About';
+import { Delivery } from './Components/Menu/Delivery/Delivery';
 
 const search = window.location.search
 const tg = window.Telegram.WebApp;
@@ -63,7 +68,13 @@ function App() {
             <Route path='/' exact element={<Mainpage/>}/>
             <Route path='/Settings' exact element={<Settings/>}/>
             <Route path='/Personalization' exact element={<Personalization/>}/>
+            <Route path='/Grafik' exact element={<Grafik/>}/>
+            <Route path='/Obmin' exact element={<Obmin/>}/>
+            <Route path='/Garant' exact element={<Garant/>}/>
+            <Route path='/About' exact element={<About/>}/>
+            <Route path='/Delivery' exact element={<Delivery/>}/>
             
+
           </Routes>
         </div>
 

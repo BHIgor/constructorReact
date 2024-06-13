@@ -1,0 +1,11 @@
+@import '../../../fonts/fonts.scss';
+@import '../../mixin/mixins.scss';
+
+.grafik{
+
+  @include productFont();
+
+  &__title{
+    text-align:center;
+  }
+}

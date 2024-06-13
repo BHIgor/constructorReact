@@ -1,0 +1,125 @@
+@import '../../../fonts/fonts.scss';
+@import '../../mixin/mixins.scss';
+
+
+.deliveryMargin{
+  margin-bottom: 60px;
+}
+.delivery{
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 20px;
+
+  @include productFont();
+
+  &__text{
+    font-size: 14px;
+  }
+ 
+  &__container{
+ 
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__block{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+
+    &--nova{
+      height: 25px;
+      width: 80px;
+  
+      background-image: url(../../../images/delivery/nova.svg);
+    }
+
+    &--rozetka{
+      height: 20px;
+      width: 20px;
+  
+      background-image: url(../../../images/delivery/rozetka.svg);
+    }
+
+    &--ukr{
+      height: 13px;
+      width: 76px;
+  
+      background-image: url(../../../images/delivery/ukr.svg);
+    }
+
+    &--meest{
+      height: 15px;
+      width: 65px;
+  
+      background-image: url(../../../images/delivery/meest.svg);
+    }
+
+    &--kurier{
+      height: 25px;
+      width: 25px;
+  
+      background-image: url(../../../images/delivery/kurier.svg);
+    }
+
+    &--sam{
+      height: 23px;
+      width: 40px;
+  
+      background-image: url(../../../images/delivery/sam.svg);
+    }
+  }
+  &__blockIcon{
+    width: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__selectBlock{
+    border: 1px solid gray;
+    height: 20px;
+    border-radius: 50%;
+    width: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  &__flex{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  &__selected{
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+  }
+
+  &__textArea{
+    margin-top: 7px;
+    padding: 5px;
+    height: 80px;
+    resize: none;
+    width: 250px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: 1px solid rgb(186, 185, 185);
+    outline: none;
+    margin-bottom: 15px;
+
+    &:placeholder-shown{
+      font-size: 14px;
+    }
+  }
+
+  &__icon{
+
+    @include iconPosition();
+  }
+}
