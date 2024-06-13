@@ -70,6 +70,27 @@
   
       background-image: url(../../../images/delivery/sam.svg);
     }
+
+    &--otr{
+      height: 28px;
+      width: 30px;
+  
+      background-image: url(../../../images/pay/otr.svg);
+    }
+
+    &--rekv{
+      height: 28px;
+      width: 30px;
+  
+      background-image: url(../../../images/pay/rekv.svg);
+    }
+
+    &--karta{
+      height: 23px;
+      width: 30px;
+  
+      background-image: url(../../../images/pay/karta.svg);
+    }
   }
   &__blockIcon{
     width: 50px;

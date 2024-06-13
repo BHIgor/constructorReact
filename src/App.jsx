@@ -13,6 +13,8 @@ import { Obmin } from './Components/Menu/Obmin/Obmin';
 import { Garant } from './Components/Menu/Garant/Garant';
 import { About } from './Components/Menu/About/About';
 import { Delivery } from './Components/Menu/Delivery/Delivery';
+import { Pay } from './Components/Menu/Pay/Pay';
+import { Contacts } from './Components/Menu/Contacts/Contacts';
 
 const search = window.location.search
 const tg = window.Telegram.WebApp;
@@ -73,8 +75,10 @@ function App() {
             <Route path='/Garant' exact element={<Garant/>}/>
             <Route path='/About' exact element={<About/>}/>
             <Route path='/Delivery' exact element={<Delivery/>}/>
+            <Route path='/Pay' exact element={<Pay/>}/>
+            <Route path='/Contacts' exact element={<Contacts/>}/>
+           
             
-
           </Routes>
         </div>
 

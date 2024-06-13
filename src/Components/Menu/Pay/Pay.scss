@@ -1,0 +1,24 @@
+.pay{
+
+  &__submit{
+    margin-top: 20px;
+  }
+
+  &__title{
+    margin-bottom: 20px;
+  }
+
+  &__border{
+    width: 320px;
+  }
+
+  &__flex{
+    display: flex;
+    align-items: center;
+   
+  }
+  &__flexBlock{
+    gap: 5px;
+   
+  }
+}
