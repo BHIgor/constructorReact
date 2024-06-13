@@ -45,12 +45,39 @@ export const Menu = ({
                   <li className="menu__item">
                     <div className='menu__icon menu__icon--katalog'></div>
                     <div className="menu__list">
-                      Товари
+                      Всі товари
+                    </div>
+                  </li>
+                </NavLink>
+
+                <NavLink to={`/Katalog?${dataDB.listBot[0].nameShop}`} onClick={() =>scrollToTop()} className='menu__link' style={getLinkStyle}>
+                  <li className="menu__item">
+                    <div className='menu__icon menu__icon--add'></div>
+                    <div className="menu__list">
+                      Додати товар
+                    </div>
+                  </li>
+                </NavLink>
+
+                <NavLink to={`/Katalog?${dataDB.listBot[0].nameShop}`} onClick={() =>scrollToTop()} className='menu__link' style={getLinkStyle}>
+                  <li className="menu__item">
+                    <div className='menu__icon menu__icon--import'></div>
+                    <div className="menu__list">
+                      Імпорт товарів
                     </div>
                   </li>
                 </NavLink>
 
                 <hr className='menu__lineHorizont'></hr>
+               
+                <NavLink to={`/Orders?${dataDB.listBot[0].nameShop}`} onClick={() =>scrollToTop()} className='menu__link' style={getLinkStyle}>
+                  <li className="menu__item ">
+                    <div className='menu__icon menu__icon--checkout'></div>
+                    <div className="menu__list">
+                      Мої замовлення
+                    </div>
+                  </li>
+                </NavLink> 
 
                 <NavLink  to={`/Settings?${dataDB.listBot[0].nameShop}`} onClick={() =>scrollToTop()} className='menu__link' style={getLinkStyle}>
                   <li className="menu__item">
@@ -69,15 +96,6 @@ export const Menu = ({
                     </div>
                   </li>
                 </NavLink>
-
-                <NavLink to={`/Orders?${dataDB.listBot[0].nameShop}`} onClick={() =>scrollToTop()} className='menu__link' style={getLinkStyle}>
-                  <li className="menu__item ">
-                    <div className='menu__icon menu__icon--checkout'></div>
-                    <div className="menu__list">
-                      Мої замовлення
-                    </div>
-                  </li>
-                </NavLink>        
 
                 <hr className='menu__lineHorizont'></hr>
      

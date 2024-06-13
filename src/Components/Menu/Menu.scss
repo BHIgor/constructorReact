@@ -70,15 +70,15 @@
   &__link{
     cursor: pointer;
     border: none;
-    width: 235px;
+    width: 240px;
     border-radius: 5px;
     text-decoration: none;
   }
 
   &__icon {
     text-decoration: none;
-    height: 15px;
-    width: 15px;
+    height: 20px;
+    width: 20px;
 
     @include iconPosition();
 
@@ -90,8 +90,17 @@
       background-image: url(../../images/menu/katalog.svg);
     }
 
+    &--add{
+      background-image: url(../../images/menu/addProduct.svg);
+    }
+
+    &--import{
+
+      background-image: url(../../images/menu/import.svg);
+    }
+
     &--cart{
-      background-image: url(../../images/menu/cart-menu.svg);
+      background-image: url(../../images/menu/settings.svg);
     }
 
     &--checkout{
@@ -123,7 +132,7 @@
     }
 
     &--like{
-      background-image: url(../../images/like.svg);
+      background-image: url(../../images/menu/paint.svg);
     }
 
     &--time{
