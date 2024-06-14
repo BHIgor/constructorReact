@@ -1,0 +1,122 @@
+@import '../../../fonts/fonts.scss';
+
+
+.main{
+  &__search{
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+    
+    &--result{
+      position: absolute;
+      background-color: rgb(250, 249, 249);
+      top: 36px;
+      width: 300px;
+      z-index: 4;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+   
+      @include productFont();
+
+    }
+
+    &--resultNone {
+      display: none;
+    }
+
+    &--resultItem{
+      cursor: pointer;
+      width: 100%;
+      font-size: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-decoration: none;
+      color: black;
+      padding-right: 10px;
+      -webkit-line-clamp: 2; 
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+
+   
+      &:last-child{
+        border: none;
+      }
+    }
+
+    &--resultFlex{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgb(206, 206, 206); 
+      border-right: 1px solid rgb(206, 206, 206); 
+      border-bottom-right-radius: 5px;
+      padding: 1px;
+      text-decoration: none;
+
+      &:hover{
+        background-color: rgb(211, 211, 211);
+      }
+   
+    }
+
+
+  
+    &--resultImg{
+      width: 40px;
+      height: 40px;
+      border-radius: 5px;
+      display: block;
+    }
+
+    &--flexBlock{
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    &--button{
+      position: absolute;
+      right: 5px;
+      padding: 4px;
+      border-radius: 5px;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+
+      @include productFont();
+    }
+
+    &--buttonNone{
+      display: none;
+    }
+
+    &--icon{
+      background-image: url(../../../images/search.svg);
+      opacity: 0.5;
+      height: 28px;
+      width: 28px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      margin-left: 7px;
+      margin-top: 2px;
+    }
+
+    &--input{
+      width: 300px;
+      outline: none;
+      height: 36px;
+      border: 1px solid gray;
+      border-radius: 5px;
+
+      padding-left: 38px;
+      font-size: 15px;
+
+    }
+  }
+} 

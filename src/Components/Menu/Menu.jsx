@@ -50,7 +50,7 @@ export const Menu = ({
                   </li>
                 </NavLink>
 
-                <NavLink to={`/Katalog?${dataDB.listBot[0].nameShop}`} onClick={() =>scrollToTop()} className='menu__link' style={getLinkStyle}>
+                <NavLink to={`/AddProduct?${dataDB.listBot[0].nameShop}`} onClick={() =>scrollToTop()} className='menu__link' style={getLinkStyle}>
                   <li className="menu__item">
                     <div className='menu__icon menu__icon--add'></div>
                     <div className="menu__list">
@@ -59,7 +59,7 @@ export const Menu = ({
                   </li>
                 </NavLink>
 
-                <NavLink to={`/Katalog?${dataDB.listBot[0].nameShop}`} onClick={() =>scrollToTop()} className='menu__link' style={getLinkStyle}>
+                <NavLink to={`/Import?${dataDB.listBot[0].nameShop}`} onClick={() =>scrollToTop()} className='menu__link' style={getLinkStyle}>
                   <li className="menu__item">
                     <div className='menu__icon menu__icon--import'></div>
                     <div className="menu__list">

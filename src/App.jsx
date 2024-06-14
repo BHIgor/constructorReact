@@ -15,6 +15,7 @@ import { About } from './Components/Menu/About/About';
 import { Delivery } from './Components/Menu/Delivery/Delivery';
 import { Pay } from './Components/Menu/Pay/Pay';
 import { Contacts } from './Components/Menu/Contacts/Contacts';
+import { Katalog } from './Components/Menu/Katalog/Katalog';
 
 const search = window.location.search
 const tg = window.Telegram.WebApp;
@@ -77,6 +78,7 @@ function App() {
             <Route path='/Delivery' exact element={<Delivery/>}/>
             <Route path='/Pay' exact element={<Pay/>}/>
             <Route path='/Contacts' exact element={<Contacts/>}/>
+            <Route path='/Katalog' exact element={<Katalog/>}/>
            
             
           </Routes>
