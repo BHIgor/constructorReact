@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { ReactContext } from "../../../context/ReactContext"
 import { animateScroll as scroll } from 'react-scroll';
 
@@ -8,12 +8,86 @@ import './Settings.scss';
 export const Settings = () => {
   const { dataDB, setDataDB } = useContext(ReactContext);
   const [name, setName] = useState('')
-  const [ status, setStatus ] = useState('no')
+  const [status, setStatus] = useState('no')
   const [instagram, setInstagram] = useState('')
   const [facebook, setFacebook] = useState('')
   const [telegram, setTelegram] = useState('')
-  const [viber, setViber ] = useState('')
+  const [viber, setViber] = useState('')
   const [tiktok, setTiktok] = useState('')
+  const [slider, setSlider] = useState([])
+
+  const fileInputRef = useRef(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setUploading(true);
+      try {
+        await uploadToImgBB(file);
+      } catch (error) {
+        console.error("Error uploading file: ", error);
+      } finally {
+        setUploading(false);
+      }
+    }
+  };
+
+  const uploadToImgBB = async (file) => {
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const response = await fetch('https://api.imgbb.com/1/upload?key=60cda1ca7c5538c9a8a026499beff8ad', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      await fetch(`https://tgconstructor.com.ua/settings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({
+          operation: 'Слайдер',
+          nameShop: dataDB.listBot[0].nameShop,
+          slider: (slider[0] === '') ? data.data.url: [...slider, data.data.url].join(','),
+        })
+      })
+        .then((response) => {
+          setStatus('ok')
+          setDataDB(prevState => ({
+            ...dataDB, settings: prevState.settings.map((item, i) =>
+              i === 0 ? { ...item, slider: (slider[0] === '') ? data.data.url : [...slider, data.data.url].join(',') } : item
+            )
+          }))
+
+          setTimeout(() => {
+            setStatus('no')
+          }, 5000)
+          return response.json();
+        })
+        .catch(e => {
+          setStatus('err')
+
+          setTimeout(() => {
+            setStatus('no')
+          }, 5000)
+
+          console.log(e)
+          return false
+        })
+
+    } else {
+      throw new Error('Upload failed');
+    }
+  };
 
   const handleName = (event) => {
     setName(event.target.value);
@@ -41,62 +115,64 @@ export const Settings = () => {
 
 
   const scrollToTop = () => {
-    scroll.scrollToTop({duration:20});
+    scroll.scrollToTop({ duration: 20 });
   };
 
   const sendChange = () => {
     scrollToTop()
 
-    try{
+    try {
       fetch(`https://tgconstructor.com.ua/settings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify({
-          operation: 'Налаштування', 
+          operation: 'Налаштування',
           nameShop: dataDB.listBot[0].nameShop,
           name: name,
         })
       })
-      .then((response) => {
-        setStatus('ok')
-        setDataDB(prevState => ({...dataDB,  listBot: prevState.listBot.map((item, i) =>
-          i === 0 ? { ...item, name: name} : item
-        )}))
+        .then((response) => {
+          setStatus('ok')
+          setDataDB(prevState => ({
+            ...dataDB, listBot: prevState.listBot.map((item, i) =>
+              i === 0 ? { ...item, name: name } : item
+            )
+          }))
 
-        setTimeout(() => {
-          setStatus('no')
-        }, 5000)
-        return response.json();
-      })
-      .catch(e =>{
-        setStatus('err')
+          setTimeout(() => {
+            setStatus('no')
+          }, 5000)
+          return response.json();
+        })
+        .catch(e => {
+          setStatus('err')
 
-        setTimeout(() => {
-          setStatus('no')
-        }, 5000)
+          setTimeout(() => {
+            setStatus('no')
+          }, 5000)
 
-        console.log(e)
-        return false
-      })
+          console.log(e)
+          return false
+        })
 
     } catch (e) {
       return false;
     }
-  } 
+  }
 
   const sendSoc = () => {
     scrollToTop()
 
-    try{
+    try {
       fetch(`https://tgconstructor.com.ua/settings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify({
-          operation: 'Соц. Мережі', 
+          operation: 'Соц. Мережі',
           nameShop: dataDB.listBot[0].nameShop,
           instagram: instagram,
           telegram: telegram,
@@ -105,18 +181,72 @@ export const Settings = () => {
           tiktok: tiktok
         })
       })
+        .then((response) => {
+          setStatus('ok')
+          setDataDB(prevState => ({
+            ...dataDB, settings: prevState.settings.map((item, i) =>
+              i === 0 ? { ...item, instagram: instagram, telegram: telegram, viber: viber, facebook: facebook, tiktok: tiktok } : item
+            )
+          }))
+
+          setTimeout(() => {
+            setStatus('no')
+          }, 5000)
+          return response.json();
+        })
+        .catch(e => {
+          setStatus('err')
+
+          setTimeout(() => {
+            setStatus('no')
+          }, 5000)
+
+          console.log(e)
+          return false
+        })
+
+    } catch (e) {
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    setName((dataDB.length === 0) ? '' : dataDB.listBot[0].name)
+    setInstagram((dataDB.length === 0) ? '' : dataDB.settings[0].instagram)
+    setFacebook((dataDB.length === 0) ? '' : dataDB.settings[0].facebook)
+    setViber((dataDB.length === 0) ? '' : dataDB.settings[0].viber)
+    setTelegram((dataDB.length === 0) ? '' : dataDB.settings[0].telegram)
+    setTiktok((dataDB.length === 0) ? '' : dataDB.settings[0].tiktok)
+    setSlider((dataDB.length === 0) ? '' : dataDB.settings[0].slider.split(','))
+  }, [dataDB.length, dataDB.listBot, dataDB.settings])
+
+  const deleteSliderImg = async (index) => {
+
+    await fetch(`https://tgconstructor.com.ua/settings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({
+        operation: 'Слайдер',
+        nameShop: dataDB.listBot[0].nameShop,
+        slider: slider.filter((item, i) => i !== index).join(','),
+      })
+    })
       .then((response) => {
         setStatus('ok')
-        setDataDB(prevState => ({...dataDB,  settings: prevState.settings.map((item, i) =>
-          i === 0 ? { ...item, instagram: instagram, telegram:telegram, viber: viber, facebook:facebook, tiktok:tiktok} : item
-        )}))
+        setDataDB(prevState => ({
+          ...dataDB, settings: prevState.settings.map((item, i) =>
+            i === 0 ? { ...item, slider: slider.filter((item, i) => i !== index).join(',') } : item
+          )
+        }))
 
         setTimeout(() => {
           setStatus('no')
         }, 5000)
         return response.json();
       })
-      .catch(e =>{
+      .catch(e => {
         setStatus('err')
 
         setTimeout(() => {
@@ -126,59 +256,7 @@ export const Settings = () => {
         console.log(e)
         return false
       })
-
-    } catch (e) {
-      return false;
-    }
-  } 
-
-  useEffect(() => {
-    setName((dataDB.length === 0) ? '' : dataDB.listBot[0].name)
-    setInstagram((dataDB.length === 0) ? '' : dataDB.settings[0].instagram)
-    setFacebook((dataDB.length === 0) ? '' : dataDB.settings[0].facebook)
-    setViber((dataDB.length === 0) ? '' : dataDB.settings[0].viber)
-    setTelegram((dataDB.length === 0) ? '' : dataDB.settings[0].telegram)
-    setTiktok((dataDB.length === 0) ? '' : dataDB.settings[0].tiktok)
-
-  }, [dataDB.length, dataDB.listBot, dataDB.settings])
-  console.log(name)
-
-/*
-  const [image, setImage] = useState(null);
-  const [imageURL, setImageURL] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-
-  const handleUpload = async () => {
-    if (!image) return;
-
-    setLoading(true);
-
-    const formData = new FormData();
-    formData.append('image', image);
-
-    try {
-      const response = await fetch('https://api.imgbb.com/1/upload?key=60cda1ca7c5538c9a8a026499beff8ad', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      setImageURL(data.data.url);
-    } catch (error) {
-      console.error('Error uploading image:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-*/
+  }
 
   return <>
     {(dataDB.length === 0) ? <div>Помилка</div> : <>
@@ -188,22 +266,22 @@ export const Settings = () => {
         </div>
 
         {
-          (status === 'ok') ? 
-          <div className="settings__statusOk">
-            Зміни застосовано
-          </div> :  null 
+          (status === 'ok') ?
+            <div className="settings__statusOk">
+              Зміни застосовано
+            </div> : null
         }
         {
-          (status === 'err') ? 
-          <div className="settings__statusFail">
-            Помилка. Зверніться в тех. підтримку
-          </div> :  null
+          (status === 'err') ?
+            <div className="settings__statusFail">
+              Помилка. Зверніться в тех. підтримку
+            </div> : null
         }
-         
+
 
         <div className="settings__container">
           <div className="settings__body">
-            <div className="settings__body--border"> 
+            <div className="settings__body--border">
               <div className="settings__body--title">
                 Назва магазину
               </div>
@@ -215,7 +293,7 @@ export const Settings = () => {
                 maxLength={14}
                 placeholder='Максимум 14 символів'
               />
-            
+
               <button
                 className="settings__body--submit"
                 style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
@@ -226,7 +304,49 @@ export const Settings = () => {
               </button>
             </div>
 
-            <div className="settings__body--border"> 
+            <div className="settings__body--border">
+              <div className="settings__body--title">
+                Слайдер
+              </div>
+
+              <div className="settings__slider">
+                {
+                  (dataDB.settings[0].slider !== '') ?
+                  dataDB.settings[0].slider.split(',').map((e, index) => {
+                    return (<div key={index}>
+                      <div className="settings__slider--blockIcon" onClick={() => deleteSliderImg(index)}>
+                        <div className="settings__slider--icon"></div>
+                      </div>
+                      <img src={e} alt="Фото слайдера" className='settings__slider--img' />
+
+                    </div>
+                    )
+                  })
+                  :null
+
+                }
+              </div>
+
+              <div className="settings__slider--addPhotoBlock">
+                <button
+                  className="settings__slider--addPhoto"
+                  style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
+                  onClick={handleButtonClick}
+                  disabled={uploading}
+                >
+                  {uploading ? 'Завантаження...' : 'Додати фото'}
+                </button>
+
+                <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden-file-input"
+              />
+              </div>    
+            </div>
+
+            <div className="settings__body--border">
               <div className="settings__body--subTitle">
                 Соц. мережі
               </div>
@@ -285,7 +405,7 @@ export const Settings = () => {
                 onChange={handleTiktok}
                 placeholder='Посилання на tiktok'
               />
-            
+
               <button
                 className="settings__body--submit"
                 style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
@@ -297,30 +417,6 @@ export const Settings = () => {
             </div>
           </div>
         </div>
-
-
-        
-        
-
-
-
-
-        {
-
-        /*<input type="file" onChange={handleImageChange} />
-      <button onClick={handleUpload} disabled={loading}>
-        {loading ? 'Uploading...' : 'Upload'}
-      </button>
-     
-      {imageURL && (
-        <div>
-          <p>Image URL:</p>
-          <a href={imageURL} target="_blank" rel="noopener noreferrer">{imageURL}</a>
-          <img src={imageURL} alt="Uploaded" style={{ maxWidth: '100%', height: 'auto' }} />
-        </div>
-      )}*/
-      }
-
       </div>
     </>
     }

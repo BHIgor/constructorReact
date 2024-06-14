@@ -119,4 +119,60 @@
     margin-top: 5px;
   }
 
+  &__slider{
+    margin-top: 15px;
+    text-align: center;
+    position: relative;
+
+    &--img{
+      height: 100px;
+      width: 200px;
+      object-fit: cover;
+      margin-bottom: 5px;
+      border-radius: 10px;
+   
+    }
+
+    &--blockIcon{
+      background-color: white;
+      border: 1px solid gray;
+      padding: 2px;
+      position: absolute;
+      right: 29px;
+      margin-top: 4px;
+
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    &--icon{
+      height: 18px;
+      width: 18px;
+      background-image: url(../../../images/delete.svg);
+     
+
+      @include iconPosition()
+    }
+
+    &--addPhoto{
+      margin-top: 5px;
+      font-size: 13px;
+      text-align: center;
+      padding: 5px;
+      border-radius: 5px;
+     cursor: pointer;
+     border: none;
+    }
+
+    &--addPhotoBlock{
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+}
+
+
+.hidden-file-input {
+  display: none;
 }
