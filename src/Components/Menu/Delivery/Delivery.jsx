@@ -103,7 +103,7 @@ export const Delivery = () => {
         <div className='deliveryMargin'>
   
           <div className="settings__container">
-            <div className="settings__body">
+            <div className="settings__body settings__body2">
               <div className="settings__body--border">
                 <div className="settings__body--title">
                 Оберіть варіанти доставок
@@ -257,7 +257,7 @@ export const Delivery = () => {
           </div>
         </div>
                 <button
-                  className="settings__body--submit"
+                  className="settings__body--submit settings__body--submit2"
                   style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
                   disabled={(dataDB.settings[0].about === 'value')}
                   onClick={() => sendChange()}

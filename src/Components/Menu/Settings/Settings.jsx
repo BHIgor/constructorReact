@@ -280,7 +280,7 @@ export const Settings = () => {
 
 
         <div className="settings__container">
-          <div className="settings__body">
+          <div className="settings__body settings__body2">
             <div className="settings__body--border">
               <div className="settings__body--title">
                 Назва магазину
@@ -295,7 +295,7 @@ export const Settings = () => {
               />
 
               <button
-                className="settings__body--submit"
+                className="settings__body--submit settings__body--submit2"
                 style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
                 disabled={(dataDB.listBot[0].name === name)}
                 onClick={() => sendChange()}
@@ -407,7 +407,7 @@ export const Settings = () => {
               />
 
               <button
-                className="settings__body--submit"
+                className="settings__body--submit settings__body--submit2"
                 style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
                 disabled={(dataDB.settings[0].instagram === instagram && dataDB.settings[0].telegram === telegram && dataDB.settings[0].facebook === facebook && dataDB.settings[0].viber === viber && dataDB.settings[0].tiktok === tiktok)}
                 onClick={() => sendSoc()}

@@ -137,7 +137,7 @@ export const Personalization = () => {
 
 
         <div className="settings__container">
-          <div className="settings__body">
+          <div className="settings__body settings__body2">
             <div className="personaliz__body--title">
               Основний колір
             </div>

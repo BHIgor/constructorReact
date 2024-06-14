@@ -98,7 +98,7 @@ export const Pay = () => {
         <div className='deliveryMargin'>
 
           <div className="settings__container">
-            <div className="settings__body">
+            <div className="settings__body settings__body2">
               <div className="settings__body--border pay__border">
                 <div className="settings__body--title pay__title">
                   Оберіть варіанти оплати
@@ -173,7 +173,7 @@ export const Pay = () => {
                   </div>
                 </div>
                 <button
-                  className="settings__body--submit pay__submit"
+                  className="settings__body--submit pay__submit settings__body--submit2"
                   style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
                   disabled={(dataDB.settings[0].about === 'value')}
                   onClick={() => sendChange()}

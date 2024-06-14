@@ -126,7 +126,7 @@ export const Contacts = () => {
          
 
         <div className="settings__container">
-          <div className="settings__body">
+          <div className="settings__body settings__body2">
           
             <div className="settings__body--border"> 
               <div className="settings__body--title">
@@ -196,7 +196,7 @@ export const Contacts = () => {
               />
             
               <button
-                className="settings__body--submit"
+                className="settings__body--submit settings__body--submit2"
                 style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
                 disabled={(dataDB.settings[0].phoneOne === phoneOne && dataDB.settings[0].phoneTwo === phoneTwo && dataDB.settings[0].email === email && dataDB.settings[0].telegaContact === telegaContact && dataDB.settings[0].viberContact === viberContact && dataDB.settings[0].instaContact === instaContact)}
                 onClick={() => sendChange()}
