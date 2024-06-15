@@ -46,7 +46,7 @@ export const Katalog = () =>{
       
       <div className='katalog'>
           <div className="katalog__allproduct">
-            <Link  to={`/AllProduct?${dataDB.listBot[0].nameShop}`} className="katalog__item katalog__item2">
+            <Link  to={`/Kategory/Всі товари?${dataDB.listBot[0].nameShop}`} className="katalog__item katalog__item2">
                 Всі товари
             </Link>
           </div>  

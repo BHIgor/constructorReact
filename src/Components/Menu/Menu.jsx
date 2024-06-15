@@ -45,7 +45,7 @@ export const Menu = ({
                   <li className="menu__item">
                     <div className='menu__icon menu__icon--katalog'></div>
                     <div className="menu__list">
-                      Всі товари
+                      Каталог
                     </div>
                   </li>
                 </NavLink>
