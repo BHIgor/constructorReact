@@ -1,0 +1,311 @@
+@import './../mixin/mixins.scss';
+@import './../../fonts/fonts.scss';
+
+.addProduct{
+  margin-bottom: 80px;
+
+  @include productFont();
+
+  &__title{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 19px;
+    font-weight: bold;
+  }
+  
+  &__container{
+    display: flex;
+    justify-content: center;
+  }
+
+  &__body{
+    margin-top: 15px;
+    width: 360px;
+    
+    &--discountBlock{
+      display: flex;
+      justify-content: center;
+    }
+
+    &--discount{
+      font-size: 12px;
+      padding: 7px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    &--nayavBlock{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    &--nayavFlex{
+      display: flex;
+      align-items: center;
+      gap:8px;
+      background-color: #f1f8eb;
+      padding: 5px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    &--noNayav{
+     background-color: #f8ebeb;;
+    }
+
+    &--nayavText{
+      font-size: 13px;
+      color: #57ae00;
+      font-family: Roboto, sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+    &--noNayavText{
+      font-size: 13px;
+      color: gray;
+      font-family: Roboto, sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    &--select{
+      margin-top: 10px;
+      margin-bottom: 10px;
+      height: 25px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 12px;
+      @include productFont();
+    }
+
+    &--option{
+      font-size: 13px;
+    }
+    &--marginT{
+      margin-top: 0px !important;
+    }
+
+    &--starBlock{
+      display: flex;
+      flex-direction: column;
+      gap:5px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    &--starFlex{
+      display: flex;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    &--starInput{
+      width: 15px;
+      height: 15px;
+      border: 1px solid rgb(192, 192, 192);
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    &--textAr{
+      margin-top: 10px;
+      padding: 5px;
+      height: 100px;
+      resize: none;
+      width: 310px;
+      font-size: 15px;
+      border-radius: 5px;
+      border: 1px solid rgb(186, 185, 185);
+      outline: none;
+      margin-bottom: 15px;
+
+      &:placeholder-shown{
+        font-size: 14px;
+      }
+    }
+
+
+    &--star{
+      height: 15px;
+      width: 15px;
+      background-image: url(../../images/icons/star.svg);
+
+      @include iconPosition();
+    }
+
+    &--border{
+      border: 1px solid rgb(227, 227, 227);
+      padding: 20px 25px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+
+    }
+
+    &--subTitle{
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    &--title{
+      font-size: 13px;
+      color: gray;
+    }
+
+    &--text{
+      margin-top: 7px;
+      padding: 5px;
+      height: 30px;
+      width: 310px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid rgb(186, 185, 185);
+      outline: none;
+      margin-bottom: 15px;
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &:placeholder-shown{
+        font-size: 13px;
+      }
+    }
+
+    &--textArea{
+      margin-top: 7px;
+      padding: 5px;
+      height: 150px;
+      resize: none;
+      width: 310px;
+      font-size: 15px;
+      border-radius: 5px;
+      border: 1px solid rgb(186, 185, 185);
+      outline: none;
+      margin-bottom: 15px;
+
+      &:placeholder-shown{
+        font-size: 14px;
+      }
+    }
+
+    &--submit{
+      padding: 5px;
+      height: 35px;
+      width: 310px;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+      border: none;
+      color: black;
+
+      @include productFont();
+
+      &:disabled{
+        opacity: 0.6;
+        cursor: default;
+      }
+    }
+
+    &--submit2{
+      width: 250px;
+    }
+   
+  }
+  
+  &__podskazka{
+    margin-top: 50px;
+    font-size: 13px;
+    color: gray;
+  }
+
+  &__statusOk{
+    font-size: 14px;
+    text-align: center;
+    background-color: green;
+    color: white;
+    padding: 5px;
+    margin-top: 5px;
+  }
+
+  &__statusFail{
+    font-size: 14px;
+    text-align: center;
+    background-color: red;
+    color: white;
+    padding: 5px;
+    margin-top: 5px;
+  }
+
+  &__slider{
+    margin-top: 15px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    &--img{
+      height: 99px;
+      width: 99px;
+      object-fit: cover;
+      border-radius: 10px;
+      display: block;
+   
+    }
+
+    &--block{
+      position: relative;
+    }
+
+    &--blockIcon{
+      background-color: white;
+      border: 1px solid gray;
+      padding: 2px;
+      position: absolute;
+      right: 4px;
+      margin-top: 4px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    &--icon{
+      height: 18px;
+      width: 18px;
+      background-image: url(../../images/delete.svg);
+     
+
+      @include iconPosition()
+    }
+
+    &--addPhoto{
+      margin-top: 10px;
+      margin-bottom: 5px;
+      font-size: 13px;
+      text-align: center;
+      padding: 5px 8px;
+      border-radius: 5px;
+     cursor: pointer;
+     border: none;
+     color: black;
+    }
+
+    &--addPhotoBlock{
+      display: flex;
+      justify-content: center;
+    }
+
+
+  }
+
+}
+
+
+.hidden-file-input {
+  display: none;
+}
+

@@ -1,16 +1,57 @@
-import { useContext, } from 'react';
+import { useContext, useEffect, useMemo, useState, } from 'react';
 import { ReactContext } from "../../context/ReactContext"
 //mport { animateScroll as scroll } from 'react-scroll';
 
 import './Product.scss';
 
 export const Product = ({ products }) => {
-  const { dataDB } = useContext(ReactContext);
+  const { dataDB, setDataDB } = useContext(ReactContext);
+  const [copyProducts, setCopyProducts ] = useState([])
+
+  const allProducts =  useMemo(() =>(dataDB.length ===0 ) ? []: dataDB.products, [dataDB.length, dataDB.products])
 
  /* const scrollToTop = () => {
     scroll.scrollToTop({ duration: 20 });
   };*/
 
+  const sendChange = (id) => {
+
+    const newProducts = copyProducts.filter(item => item.id !== id);
+    setCopyProducts(newProducts);
+
+    try{
+      fetch(`https://tgconstructor.com.ua/settings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({
+          operation: 'Видалення товару', 
+          nameShop: dataDB.listBot[0].nameShop,
+          id: id,
+        })
+      })
+      .then((response) => {
+        setDataDB(prevState => ({...dataDB,  products: newProducts}))
+        return response.json();
+      })
+      .catch(e =>{
+        console.log(e)
+        return false
+      })
+
+    } catch (e) {
+      return false;
+    }
+  } 
+
+
+  useEffect(() => {
+    setCopyProducts(allProducts)
+    
+  }, [dataDB.length, allProducts])
+
+  console.log(copyProducts)
   return <>
     {(dataDB.length === 0) ? <div>Помилка</div> : <>
       <div className="product">
@@ -95,7 +136,10 @@ export const Product = ({ products }) => {
                       </div>
                     </div>
 
-                    <div className="product__page--deleteBlock">
+                    <div 
+                      className="product__page--deleteBlock"
+                      onClick={() => sendChange(e.id)}
+                    >
                       <div className="product__page--delete">
                         
                       </div>

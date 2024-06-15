@@ -17,6 +17,7 @@ import { Pay } from './Components/Menu/Pay/Pay';
 import { Contacts } from './Components/Menu/Contacts/Contacts';
 import { Katalog } from './Components/Menu/Katalog/Katalog';
 import { Kategory } from './Components/Menu/Katalog/Kategory';
+import { AddProduct } from './Components/AddProduct/AddProduct';
 
 const search = window.location.search
 const tg = window.Telegram.WebApp;
@@ -80,6 +81,7 @@ function App() {
             <Route path='/Pay' exact element={<Pay/>}/>
             <Route path='/Contacts' exact element={<Contacts/>}/>
             <Route path='/Katalog' exact element={<Katalog/>}/>
+            <Route path='/AddProduct' exact element={<AddProduct/>}/>
             <Route path="/Kategory/:catageryName" element={<Kategory />} />
             
           </Routes>
