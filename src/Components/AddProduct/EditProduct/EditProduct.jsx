@@ -1,10 +1,9 @@
-import { useContext, useRef, useState } from 'react';
-import { ReactContext } from "../../context/ReactContext"
+import { useContext, useEffect, useRef, useState } from 'react';
+import { ReactContext } from "../../../context/ReactContext"
 import { animateScroll as scroll } from 'react-scroll';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import './AddProduct.scss';
-
-export const AddProduct = () => {
+export const EditProduct = () => {
   const { dataDB, setDataDB } = useContext(ReactContext);
   const [status, setStatus] = useState('no')
   const fileInputRef = useRef(null);
@@ -13,6 +12,7 @@ export const AddProduct = () => {
   const [otherCategory, setOtherCategory] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [blockDiscount, setBlockDiscount] = useState(false)
+  const { productId } = useParams();
 
   const [title, setTitle] = useState('')
   const [arrImg, setArrImg] = useState([])
@@ -23,7 +23,8 @@ export const AddProduct = () => {
   const [top, setTop] = useState('yes')
   const [price, setPrice] = useState(0)
   const [discount, setDiscount] = useState(0)
-
+  const navigate = useNavigate();
+  
   const handleCategoryChange = (event) => {
     const value = event.target.value;
     setSelectedCategory(value);
@@ -111,20 +112,13 @@ export const AddProduct = () => {
     scroll.scrollToTop({ duration: 20 });
   };
 
+  const back = () => {
+    navigate(-1);
+  };
+
   const sendChange = () => {
     scrollToTop()
 
-    setTitle('')
-    setArrImg([])
-    setCategory('Без категорії')
-    setDescription('')
-    setNayav('yes')
-    setStar('5')
-    setTop('yes')
-    setPrice(0)
-    setDiscount(0)
-    setSelectedCategory('')
-    setOtherCategory('')
     try {
       fetch(`https://tgconstructor.com.ua/settings`, {
         method: 'POST',
@@ -132,8 +126,9 @@ export const AddProduct = () => {
           'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify({
-          operation: 'Додавання товару',
+          operation: 'Редагування товару',
           nameShop: dataDB.listBot[0].nameShop,
+          id: Number(productId),
           title:title,
           image: arrImg.join(','),
           category: category,
@@ -144,11 +139,12 @@ export const AddProduct = () => {
           price:price,
           discount:discount
         })
-      })
+      })  
         .then((response) => {
           setStatus('ok')
           setDataDB(prevState => ({
-            ...dataDB, products: [...prevState.products, {id:dataDB.products.length,title:title,image:arrImg.join(','),kategory:category,description:description,nayavno:nayav,stars:star,top:top,price:price,price_discount:discount}]
+            ...dataDB, products: prevState.products.map(product =>
+              product.id === Number(productId) ? { ...product, ...{title:title,image:arrImg.join(','),kategory:category,description:description,nayavno:nayav,stars:star,top:top,price:price,price_discount:discount} } : product)
           }))
           setTimeout(() => {
             setStatus('no')
@@ -171,18 +167,36 @@ export const AddProduct = () => {
     }
   }
 
+  useEffect(() => {
+    setTitle((dataDB.length === 0) ? '' : dataDB.products[dataDB.products.findIndex(product => product.id ===  Number(productId))].title)
+    setArrImg((dataDB.length === 0) ? [] : dataDB.products[dataDB.products.findIndex(product => product.id ===  Number(productId))].image.split(','))
+    setSelectedCategory((dataDB.length === 0) ? '' : dataDB.products[dataDB.products.findIndex(product => product.id ===  Number(productId))].kategory)
+    setDescription((dataDB.length === 0) ? '' : dataDB.products[dataDB.products.findIndex(product => product.id ===  Number(productId))].description)
+    setNayav((dataDB.length === 0) ? '' : dataDB.products[dataDB.products.findIndex(product => product.id ===  Number(productId))].nayavno)
+    setStar((dataDB.length === 0) ? 0 : dataDB.products[dataDB.products.findIndex(product => product.id ===  Number(productId))].stars)
+    setTop((dataDB.length === 0) ? '' : dataDB.products[dataDB.products.findIndex(product => product.id ===  Number(productId))].top)
+    setPrice((dataDB.length === 0) ? '' : dataDB.products[dataDB.products.findIndex(product => product.id ===  Number(productId))].price)
+    setDiscount((dataDB.length === 0) ? '' : dataDB.products[dataDB.products.findIndex(product => product.id ===  Number(productId))].price_discount)
+
+
+  }, [dataDB.length, dataDB.products,productId ])
+
 
   return <>
     {(dataDB.length === 0) ? <div>Помилка</div> : <>
       <div className="addProduct">
         <div className="addProduct__title">
-          Додавання товару
+          Редагування товару
+        </div>
+
+        <div  onClick={() =>back()}  className="addProduct__back" style={{backgroundColor: `${dataDB.settings[0].clButtonProduct}`}}>
+              Назад
         </div>
 
         {
           (status === 'ok') ?
             <div className="settings__statusOk">
-              Товар доданий
+              Зміни застосовано
             </div> : null
         }
         {
@@ -438,7 +452,7 @@ export const AddProduct = () => {
                 </div>
               </div>
 
-              {blockDiscount && (
+              {(blockDiscount || discount !== 0) && (
                 <>
                   <div className="addProduct__body--title">
                     Ціна зі знижкою (грн.)
@@ -460,7 +474,7 @@ export const AddProduct = () => {
                 disabled={(title === '') ? true : false}
                 onClick={() => sendChange()}
               >
-                Додати товар
+                Редагувати товар
               </button>
             </div>
           </div>

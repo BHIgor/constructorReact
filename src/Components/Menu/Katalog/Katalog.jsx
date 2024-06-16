@@ -17,7 +17,8 @@ export const Katalog = () =>{
 
   for(let i = 0; i < uniquArray.length; i = i + 2){
       arrTag.push(<div className='katalog__block' key={i} >   
-      {
+      { 
+        (uniquArray[0] !== '') ?
         (uniquArray[i + 1] !== undefined) ?
           <div className="katalog__container">
             <Link  to={`/Kategory/${uniquArray[i]}?${dataDB.listBot[0].nameShop}`} className="katalog__item">
@@ -33,7 +34,8 @@ export const Katalog = () =>{
           <Link to={`/Kategory/${uniquArray[i]}?${dataDB.listBot[0].nameShop}`}  className="katalog__item">
             {uniquArray[i]}  
           </Link>
-        </div>  
+        </div> 
+        :null 
       }
       
     </div>)

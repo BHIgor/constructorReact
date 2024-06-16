@@ -1,8 +1,9 @@
 import { useContext, useEffect, useMemo, useState, } from 'react';
 import { ReactContext } from "../../context/ReactContext"
-//mport { animateScroll as scroll } from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 
 import './Product.scss';
+import { Link } from 'react-router-dom';
 
 export const Product = ({ products }) => {
   const { dataDB, setDataDB } = useContext(ReactContext);
@@ -10,9 +11,9 @@ export const Product = ({ products }) => {
 
   const allProducts =  useMemo(() =>(dataDB.length ===0 ) ? []: dataDB.products, [dataDB.length, dataDB.products])
 
- /* const scrollToTop = () => {
+  const scrollToTop = () => {
     scroll.scrollToTop({ duration: 20 });
-  };*/
+  }
 
   const sendChange = (id) => {
 
@@ -51,7 +52,7 @@ export const Product = ({ products }) => {
     
   }, [dataDB.length, allProducts])
 
-  console.log(copyProducts)
+
   return <>
     {(dataDB.length === 0) ? <div>Помилка</div> : <>
       <div className="product">
@@ -130,11 +131,11 @@ export const Product = ({ products }) => {
                   </div>
 
                   <div className="product__page--rightBlock">
-                    <div className="product__page--editBlock">
+                    <Link  to={`/EditProduct/${e.id}?${dataDB.listBot[0].nameShop}`} onClick={() =>scrollToTop()} className="product__page--editBlock">
                       <div className="product__page--edit">
 
                       </div>
-                    </div>
+                    </Link>
 
                     <div 
                       className="product__page--deleteBlock"

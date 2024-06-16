@@ -3,7 +3,7 @@
 
 .addProduct{
   margin-bottom: 80px;
-
+  position: relative;
   @include productFont();
 
   &__title{
@@ -11,6 +11,21 @@
     margin-top: 20px;
     font-size: 19px;
     font-weight: bold;
+    position: relative;
+  }
+  &__back{
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    position: absolute;
+    border: 1px solid black;
+    top: 0;
+    left: 30px;
+
+
   }
   
   &__container{
