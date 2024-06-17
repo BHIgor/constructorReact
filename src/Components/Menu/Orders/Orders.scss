@@ -3,6 +3,7 @@
 
 .subtitle{
   font-size: 14px;
+  width: 142px;
   color: gray;
   margin-bottom: 5px;
 }
@@ -30,7 +31,7 @@
 
   &__filter{
     border: 1px solid rgb(211, 211, 211);
-    padding: 4px 10px;
+    padding: 4px 8px;
     border-radius: 5px;
     font-size: 14px;
     cursor: pointer;
@@ -131,7 +132,7 @@
   &__status{
     display: flex;
     align-items: center;
-    gap: 70px;
+
 
     &--date{
       color: gray;

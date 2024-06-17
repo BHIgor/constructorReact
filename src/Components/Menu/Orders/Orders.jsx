@@ -87,7 +87,7 @@ export const Orders = () => {
   }, [allProducts, orderProducts, currentStatus])
 
   const detailsView = (id) => {
-    if (activDetails === id) {
+    if (Number(activDetails) === Number(id)) {
       setActivDetails(0)
     } else {
       setActivDetails(id)
@@ -101,7 +101,7 @@ export const Orders = () => {
 
 
   }
-
+console.log(activDetails)
   return <>
     {(dataDB.length === 0) ? <div>Помилка</div> : <>
       <div className='orders'>
@@ -187,7 +187,7 @@ export const Orders = () => {
                     <div className="orders__header">
 
                       <div className="orders__status">
-                        <div>
+                        <div className="orders__statusBlock">
                           <div className="orders__status--title subtitle">
                             Статус замовлення
                           </div>
