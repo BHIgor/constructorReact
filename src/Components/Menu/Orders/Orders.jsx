@@ -10,9 +10,11 @@ export const Orders = () => {
   const [status, setStatus] = useState('no')
   const [myProduct, setMyProduct] = useState([])
   const [allOrder, setAllOrder] = useState([])
+  const [currentStatus, setCurrentStatus] = useState('Новий')
 
 
   const handleOptionClick = (e, index) => {
+    setCurrentStatus(e.target.value)
     const updatedOrders = dataDB.allOrders.map(order => {
 
       if (order.ids === index) {
@@ -79,10 +81,10 @@ export const Orders = () => {
 
     })
 
-    setMyProduct(prod)
+    setMyProduct(prod.filter(e => e.status === currentStatus))
     setAllOrder(prod)
 
-  }, [allProducts, orderProducts])
+  }, [allProducts, orderProducts, currentStatus])
 
   const detailsView = (id) => {
     if (activDetails === id) {
@@ -92,8 +94,12 @@ export const Orders = () => {
     }
 
   }
+
+
   const filter = (value) => {
     setMyProduct(allOrder.filter(e => e.status === value))
+
+
   }
 
   return <>
@@ -198,7 +204,7 @@ export const Orders = () => {
                                     (e.status === 'Скасовано') ? { color: 'red' } : null}
                           >
                             <option value="Новий" style={{color: 'orange'}}>Новий</option>
-                            <option value="Прийнято">Прийнято</option>
+                            <option value="Прийнято" style={{color: 'black'}}>Прийнято</option>
                             <option value="Виконано" style={{color: 'green'}}>Виконано</option>
                             <option value="Скасовано" style={{color: 'red'}}>Скасовано</option>
                           </select>
