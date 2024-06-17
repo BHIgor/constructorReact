@@ -97,7 +97,7 @@ export const Search = ( ) =>{
           searchResults.slice(0,5).map(e => {
             const images = e.image.split(',')
             return (
-              <Link  to={`/Product/${e.id}?${dataDB.listBot[0].nameShop}`} className="main__search--resultFlex" key={e.id}>
+              <Link  to={`/SearchResult?${dataDB.listBot[0].nameShop}`}  className="main__search--resultFlex" key={e.id}>
                 <div className="main__search--resultBlockImg">
                   <img src={images[0]} alt="Фото пошуку" className="main__search--resultImg"/>
                 </div>

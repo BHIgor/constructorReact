@@ -224,6 +224,60 @@ $widthProduct: 350px;
 
     @include productFont() 
   }
+
+  &__stars {
+    display: flex;
+    gap: 2px;
+
+   &--star{
+      width: 16px;
+      height: 16px;
+      background-image: url(../../images/icons/noStar.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+   }
+
+    &--star--1 {
+      &:nth-child(-n + 1) {
+        background-image: url(../../images/icons/star.svg);
+      }
+    }
+
+    &--star--2 {
+      &:nth-child(-n + 1),
+      &:nth-child(-n + 2) {
+        background-image: url(../../images/icons/star.svg);
+      }
+    }
+    
+    &--star--3 {
+      &:nth-child(-n + 1),
+      &:nth-child(-n + 2),
+      &:nth-child(-n + 3) {
+        background-image: url(../../images/icons/star.svg);
+      }
+    }
+
+    &--star--4 {
+      &:nth-child(-n + 1),
+      &:nth-child(-n + 2),
+      &:nth-child(-n + 3),
+      &:nth-child(-n + 4) {
+        background-image: url(../../images/icons/star.svg);
+      }
+    }
+
+    &--star--5 {
+      &:nth-child(-n + 1),
+      &:nth-child(-n + 2),
+      &:nth-child(-n + 3),
+      &:nth-child(-n + 4),
+      &:nth-child(-n + 5) {
+        background-image: url(../../images/icons/star.svg);
+      }
+    }
+   
+  }
  
 }
 

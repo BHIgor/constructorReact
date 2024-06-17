@@ -19,6 +19,9 @@ import { Katalog } from './Components/Menu/Katalog/Katalog';
 import { Kategory } from './Components/Menu/Katalog/Kategory';
 import { AddProduct } from './Components/AddProduct/AddProduct';
 import { EditProduct } from './Components/AddProduct/EditProduct/EditProduct';
+import { SearchResult } from './Components/Mainpage/Search/SearchResult/SearchResult';
+import { Orders } from './Components/Menu/Orders/Orders';
+import { ProductPage } from './Components/Product/ProductPage/ProductPage';
 
 const search = window.location.search
 const tg = window.Telegram.WebApp;
@@ -74,6 +77,7 @@ function App() {
             <Route path='/' exact element={<Mainpage/>}/>
             <Route path='/Settings' exact element={<Settings/>}/>
             <Route path='/Personalization' exact element={<Personalization/>}/>
+            <Route path='/Product/:productId' exact element={<ProductPage/>}/>
             <Route path='/Grafik' exact element={<Grafik/>}/>
             <Route path='/Obmin' exact element={<Obmin/>}/>
             <Route path='/Garant' exact element={<Garant/>}/>
@@ -83,6 +87,8 @@ function App() {
             <Route path='/Contacts' exact element={<Contacts/>}/>
             <Route path='/Katalog' exact element={<Katalog/>}/>
             <Route path='/AddProduct' exact element={<AddProduct/>}/>
+            <Route path='/Orders' exact element={<Orders/>}/>
+            <Route path='/SearchResult' exact element={<SearchResult/>}/>
             <Route path='/EditProduct/:productId' exact element={<EditProduct/>}/>
             <Route path="/Kategory/:catageryName" element={<Kategory />} />
             

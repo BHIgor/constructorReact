@@ -1,0 +1,162 @@
+@import '../../../fonts/fonts.scss';
+@import '../../mixin/mixins.scss';
+
+.subtitle{
+  font-size: 14px;
+  color: gray;
+  margin-bottom: 5px;
+}
+.orders{
+  @include flexColumn();
+  @include productFont();
+
+  margin-bottom: 70px;
+  &__title{
+    font-size: 22px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
+  &__empty{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &--text{
+      @include productFont();
+    }
+
+    &--block{
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    &--blockImg{
+      display: flex;
+      justify-content: center;
+    }
+
+    &--icon{
+      height: 180px;
+      width: 180px;
+     // background-image: url(../../../images/icons/sumniy.svg);      @include iconPosition();
+    
+      @include iconPosition();
+    }
+  }
+
+  &__flexLeft{
+    display: flex;
+
+  }
+
+  &__header{
+    @include flex();
+
+    &--blockimg{
+      padding: 8px;
+      border: 1px solid rgb(220, 220, 220);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    &--deleteIcon{
+      height: 22px;
+      width: 22px;
+   //   background-image: url(../../../images/icons/send.svg);
+
+      @include iconPosition();
+    }
+  }
+
+  &__product{
+    border: 1px solid rgb(195, 195, 195);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 8px;
+    gap: 10px;
+
+    @include flexColumn();
+  }
+
+  &__status{
+    display: flex;
+    align-items: center;
+    gap: 70px;
+
+    &--date{
+      color: gray;
+      font-size: 13px;
+
+    }
+  }
+
+  &__infoProduct{
+    @include flex();
+
+    &--image{
+      height: 150px;
+      width: auto;
+      border-radius: 10px;
+    }
+
+    &--title{
+
+      text-decoration: none;
+      color: black;
+    }
+
+    &--titleBlock{
+      padding-left: 15px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+   
+  }
+
+  &__countProduct{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+  }
+
+  &__details{
+    width: 130px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  &__line{
+    border:1px solid rgb(232, 231, 231);
+    border-radius: 5px;
+  }
+
+  &__dostavka{
+    @include flex();
+
+    &--value{
+      font-weight: bold;
+    }
+  }
+
+  &__countProduct{
+
+    &--price{
+      font-size: 19px;
+    }
+
+    &--simvol{
+      font-size: 14px;
+    }
+  }
+}

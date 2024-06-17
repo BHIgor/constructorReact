@@ -1,0 +1,21 @@
+@import '../../../../fonts/fonts.scss';
+@import '../../../../Components/mixin/mixins.scss';
+
+.searchResult{
+
+  &--title{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-align: center;
+
+    @include productFont();
+
+    font-weight: bold;
+  }
+
+  &--container{
+    display: flex;
+    justify-content: center;
+  }
+}

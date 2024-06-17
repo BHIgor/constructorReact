@@ -16,7 +16,8 @@ export const Menu = ({
     setMenu(false)
     scroll.scrollToTop({duration:20});
   };
-  
+  const orderProducts = (dataDB.length !== 0) ? dataDB.allOrders.filter(e => e.status === 'Новий'):[]
+
   return <>
       { (dataDB.length === 0) ? <div>Помилка</div> : <>   
         <aside className={menu ? "menu page__menu active-menu" : 'menu page__menu'}>
@@ -74,8 +75,13 @@ export const Menu = ({
                   <li className="menu__item ">
                     <div className='menu__icon menu__icon--checkout'></div>
                     <div className="menu__list">
-                      Мої замовлення
+                      Замовлення
                     </div>
+                    { 
+                      (orderProducts.length !== 0) ? <div className="menu__list--empty">
+                      {orderProducts.length}
+                      </div> : null
+                    }
                   </li>
                 </NavLink> 
 

@@ -73,9 +73,11 @@ export const Product = ({ products }) => {
                     </div>
 
                     <div className="product__page--centerBlock">
-                      <div className='product__page--title'>
+                      <Link  
+                        to={`/Product/${e.id}?${dataDB.listBot[0].nameShop}`}
+                        className='product__page--title'>
                         {e.title}
-                      </div>
+                      </Link>
 
                       <div className="product__page--info">
                         {(e.nayavno === 'yes') ? (<>
