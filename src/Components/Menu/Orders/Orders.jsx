@@ -5,8 +5,33 @@ import './Orders.scss'
 import { Link } from 'react-router-dom';
 
 export const Orders = () => {
-  const { dataDB } = useContext(ReactContext);
+  const { dataDB, setDataDB } = useContext(ReactContext);
   const [activDetails, setActivDetails] = useState('')
+  const [isOpen, setIsOpen] = useState('');
+
+  const options = [
+    { value: 'Новий', label: 'Новий' },
+    { value: 'Прийнято', label: 'Прийнято' },
+    { value: 'Виконано', label: 'Виконано' },
+    { value: 'Скасовано', label: 'Скасовано' }
+  ];
+
+
+  const handleOptionClick = (value, index) => {
+    const updatedOrders = dataDB.allOrders.map(order => {
+      // Проверяем, если id равен 2, изменяем значение name
+      if (order.ids === index) {
+        return { ...order, status: value }; // Заменяем name на новое значение
+      }
+      return order; // Возвращаем неизмененный объект для других элементов
+    });
+    // Обновляем состояние
+    setDataDB(prevState => ({
+      ...prevState,
+      allOrders: updatedOrders
+    }));
+    setIsOpen(0);
+  };
 
   const allProducts = dataDB.products
   const orderProducts = (dataDB.length !== 0) ? dataDB.allOrders.filter(e => e.nameShop === dataDB.listBot[0].nameShop) : []
@@ -67,15 +92,43 @@ export const Orders = () => {
                             Статус замовлення
                           </div>
 
-                          <div
-                            className="orders__status--text"
-                            style={
-                              (e.status === 'Новий') ? { color: 'orange' } :
-                                (e.status === 'Виконано') ? { color: 'green' } :
-                                  (e.status === 'Скасовано') ? { color: 'red' } : null}
-                          >
-                            {e.status}
+                          <div className="orders__status--textBlock" onClick={() => setIsOpen(e.ids)}>
+                            <div
+                              className="orders__status--text"
+                              style={
+                                (e.status === 'Новий') ? { color: 'orange' } :
+                                  (e.status === 'Прийнято') ? { color: 'black' } :
+                                    (e.status === 'Виконано') ? { color: 'green' } :
+                                      (e.status === 'Скасовано') ? { color: 'red' } : null}
+                            >
+                              {e.status}
+                            </div>
+
+                            <span className={`arrow ${isOpen ? 'up' : 'down'}`}>&#9660;</span>
                           </div>
+
+
+                          {((Number(isOpen) === e.ids)) && (
+                            <div className='orders__status--option'>
+                              {
+                                options.map((option) => (
+                                  <div 
+                                  key={option.value} 
+                                  className='orders__status--optionText'
+                                  onClick={() => handleOptionClick(option.value, e.ids)}
+                                  style={
+                                    (option.value === 'Новий') ? { color: 'orange' } :
+                                      (option.value === 'Прийнято') ? { color: 'black' } :
+                                        (option.value === 'Виконано') ? { color: 'green' } :
+                                          (option.value === 'Скасовано') ? { color: 'red' } : null}
+                                  >
+                                    {option.label}
+                                  </div>
+                                ))
+                              }
+                            </div>
+                            
+                          )}
                         </div>
 
                         <div className="orders__status--date">
