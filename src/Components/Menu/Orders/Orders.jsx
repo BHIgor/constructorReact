@@ -7,24 +7,16 @@ import { Link } from 'react-router-dom';
 export const Orders = () => {
   const { dataDB, setDataDB } = useContext(ReactContext);
   const [activDetails, setActivDetails] = useState('')
-  const [isOpen, setIsOpen] = useState('');
   const [status, setStatus] = useState('no')
   const [myProduct, setMyProduct] = useState([])
   const [allOrder, setAllOrder] = useState([])
 
-  const options = [
-    { value: 'Новий', label: 'Новий' },
-    { value: 'Прийнято', label: 'Прийнято' },
-    { value: 'Виконано', label: 'Виконано' },
-    { value: 'Скасовано', label: 'Скасовано' }
-  ];
 
-
-  const handleOptionClick = (value, index) => {
+  const handleOptionClick = (e, index) => {
     const updatedOrders = dataDB.allOrders.map(order => {
 
       if (order.ids === index) {
-        return { ...order, status: value };
+        return { ...order, status: e.target.value };
       }
       return order;
     });
@@ -38,7 +30,7 @@ export const Orders = () => {
         body: JSON.stringify({
           operation: 'Зміна статуса',
           nameShop: dataDB.listBot[0].nameShop,
-          status: value,
+          status: e.target.value,
           ids: index
         })
       })
@@ -48,7 +40,6 @@ export const Orders = () => {
             ...prevState,
             allOrders: updatedOrders
           }));
-          setIsOpen(0);
 
           setTimeout(() => {
             setStatus('no')
@@ -72,7 +63,7 @@ export const Orders = () => {
   };
 
   const allProducts = dataDB.products
-  const orderProducts = useMemo(() => (dataDB.length !== 0) ? dataDB.allOrders.filter(e => e.nameShop === dataDB.listBot[0].nameShop) : [],[dataDB.allOrders, dataDB.length,dataDB.listBot])
+  const orderProducts = useMemo(() => (dataDB.length !== 0) ? dataDB.allOrders.filter(e => e.nameShop === dataDB.listBot[0].nameShop) : [], [dataDB.allOrders, dataDB.length, dataDB.listBot])
 
   useEffect(() => {
 
@@ -80,18 +71,18 @@ export const Orders = () => {
 
     orderProducts?.forEach(e => {
       const product = allProducts.find(s => s.id === Number(e.idProduct))
-  
+
       if (product) {
-     
-        return  prod.push({ ...e, ...product })
+
+        return prod.push({ ...e, ...product })
       }
-  
+
     })
 
     setMyProduct(prod)
     setAllOrder(prod)
 
-  },[allProducts, orderProducts])
+  }, [allProducts, orderProducts])
 
   const detailsView = (id) => {
     if (activDetails === id) {
@@ -135,37 +126,37 @@ export const Orders = () => {
               </div>
 
               <div className="orders__filterFlex">
-                  <button 
+                <button
                   className="orders__filter orders__filter--noviy"
                   onClick={() => filter('Новий')}
-                  disabled={(allOrder.filter(e => e.status === 'Новий').length === 0)}  
-                  >
-                    Новий {allOrder.filter(e => e.status === 'Новий').length}
-                  </button>
+                  disabled={(allOrder.filter(e => e.status === 'Новий').length === 0)}
+                >
+                  Новий {allOrder.filter(e => e.status === 'Новий').length}
+                </button>
 
-                  <button 
-                    className="orders__filter orders__filter--prinyato" 
-                    onClick={() => filter('Прийнято')}
-                    disabled={(allOrder.filter(e => e.status === 'Прийнято').length === 0)}  
-                  >
-                    Прийнято {allOrder.filter(e => e.status === 'Прийнято').length}
-                  </button>
+                <button
+                  className="orders__filter orders__filter--prinyato"
+                  onClick={() => filter('Прийнято')}
+                  disabled={(allOrder.filter(e => e.status === 'Прийнято').length === 0)}
+                >
+                  Прийнято {allOrder.filter(e => e.status === 'Прийнято').length}
+                </button>
 
-                  <button 
-                  className="orders__filter orders__filter--gotovo" 
+                <button
+                  className="orders__filter orders__filter--gotovo"
                   onClick={() => filter('Виконано')}
                   disabled={(allOrder.filter(e => e.status === 'Виконано').length === 0)}
-                  >
-                    Виконано {allOrder.filter(e => e.status === 'Виконано').length}
-                  </button>
+                >
+                  Виконано {allOrder.filter(e => e.status === 'Виконано').length}
+                </button>
 
-                  <button 
-                  className="orders__filter orders__filter--cancel" 
+                <button
+                  className="orders__filter orders__filter--cancel"
                   onClick={() => filter('Скасовано')}
                   disabled={(allOrder.filter(e => e.status === 'Скасовано').length === 0)}
-                  >
-                    Скасовано {allOrder.filter(e => e.status === 'Скасовано').length}
-                  </button>
+                >
+                  Скасовано {allOrder.filter(e => e.status === 'Скасовано').length}
+                </button>
               </div>
 
               {
@@ -183,10 +174,10 @@ export const Orders = () => {
 
               {myProduct.reverse().map((e, index) => {
                 const images = e?.image?.split(',')
-    
+
                 return (
                   <div className="orders__product" key={e.ids}>
-                    
+
                     <div className="orders__header">
 
                       <div className="orders__status">
@@ -195,43 +186,22 @@ export const Orders = () => {
                             Статус замовлення
                           </div>
 
-                          <div className="orders__status--textBlock" onClick={() => setIsOpen(e.ids)}>
-                            <div
-                              className="orders__status--text"
-                              style={
-                                (e.status === 'Новий') ? { color: 'orange' } :
-                                  (e.status === 'Прийнято') ? { color: 'black' } :
-                                    (e.status === 'Виконано') ? { color: 'green' } :
-                                      (e.status === 'Скасовано') ? { color: 'red' } : null}
-                            >
-                              {e.status}
-                            </div>
 
-                            <span className={`arrow ${isOpen ? 'up' : 'down'}`}>&#9660;</span>
-                          </div>
-
-
-                          {((Number(isOpen) === e.ids)) && (
-                            <div className='orders__status--option'>
-                              {
-                                options.map((option) => (
-                                  <div
-                                    key={option.value}
-                                    className='orders__status--optionText'
-                                    onClick={() => handleOptionClick(option.value, e.ids)}
-                                    style={
-                                      (option.value === 'Новий') ? { color: 'orange' } :
-                                        (option.value === 'Прийнято') ? { color: 'black' } :
-                                          (option.value === 'Виконано') ? { color: 'green' } :
-                                            (option.value === 'Скасовано') ? { color: 'red' } : null}
-                                  >
-                                    {option.label}
-                                  </div>
-                                ))
-                              }
-                            </div>
-
-                          )}
+                          <select
+                            defaultValue={e.status}
+                            onChange={(event) => handleOptionClick(event, e.ids)}
+                            className="kategory__sort--selected"
+                            style={
+                              (e.status === 'Новий') ? { color: 'orange' } :
+                                (e.status === 'Прийнято') ? { color: 'black' } :
+                                  (e.status === 'Виконано') ? { color: 'green' } :
+                                    (e.status === 'Скасовано') ? { color: 'red' } : null}
+                          >
+                            <option value="Новий" style={{color: 'orange'}}>Новий</option>
+                            <option value="Прийнято">Прийнято</option>
+                            <option value="Виконано" style={{color: 'green'}}>Виконано</option>
+                            <option value="Скасовано" style={{color: 'red'}}>Скасовано</option>
+                          </select>
                         </div>
 
                         <div className="orders__status--date">

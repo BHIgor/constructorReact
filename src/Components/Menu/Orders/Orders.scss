@@ -138,33 +138,6 @@
       font-size: 14px;
 
     }
-
-    &--textBlock{
-      display: flex;
-      gap:5px;
-      border: 1px solid rgb(205, 204, 204);
-      border-radius: 5px;
-      justify-content: space-between;
-      padding: 2px 5px;
-      cursor: pointer;
-      width: 150px;
-    }
-
-    &--option{
-      position: absolute;
-      width: 150px;
-      background-color: white;
-    }
-
-    &--optionText{
-      border-bottom:  1px solid rgb(205, 204, 204);
-      padding: 2px 5px;
-      cursor: pointer;
-
-      &:hover{
-        background-color: rgb(224, 224, 224)
-      }
-    }
   }
 
   &__infoProduct{
