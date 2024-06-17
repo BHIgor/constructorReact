@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { ReactContext } from "../../../context/ReactContext"
 import moment from 'moment';
 import './Orders.scss'
@@ -8,6 +8,9 @@ export const Orders = () => {
   const { dataDB, setDataDB } = useContext(ReactContext);
   const [activDetails, setActivDetails] = useState('')
   const [isOpen, setIsOpen] = useState('');
+  const [status, setStatus] = useState('no')
+  const [myProduct, setMyProduct] = useState([])
+  const [allOrder, setAllOrder] = useState([])
 
   const options = [
     { value: 'Новий', label: 'Новий' },
@@ -19,32 +22,76 @@ export const Orders = () => {
 
   const handleOptionClick = (value, index) => {
     const updatedOrders = dataDB.allOrders.map(order => {
-      // Проверяем, если id равен 2, изменяем значение name
+
       if (order.ids === index) {
-        return { ...order, status: value }; // Заменяем name на новое значение
+        return { ...order, status: value };
       }
-      return order; // Возвращаем неизмененный объект для других элементов
+      return order;
     });
-    // Обновляем состояние
-    setDataDB(prevState => ({
-      ...prevState,
-      allOrders: updatedOrders
-    }));
-    setIsOpen(0);
+
+    try {
+      fetch(`https://tgbazar.com.ua/products/${dataDB.listBot[0].nameShop}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({
+          operation: 'Зміна статуса',
+          nameShop: dataDB.listBot[0].nameShop,
+          status: value,
+          ids: index
+        })
+      })
+        .then((response) => {
+          setStatus('ok')
+          setDataDB(prevState => ({
+            ...prevState,
+            allOrders: updatedOrders
+          }));
+          setIsOpen(0);
+
+          setTimeout(() => {
+            setStatus('no')
+          }, 5000)
+          return response.json();
+        })
+        .catch(e => {
+          setStatus('err')
+
+          setTimeout(() => {
+            setStatus('no')
+          }, 5000)
+
+          console.log(e)
+          return false
+        })
+
+    } catch (e) {
+      return false;
+    }
   };
 
   const allProducts = dataDB.products
-  const orderProducts = (dataDB.length !== 0) ? dataDB.allOrders.filter(e => e.nameShop === dataDB.listBot[0].nameShop) : []
-  const myProduct = []
+  const orderProducts = useMemo(() => (dataDB.length !== 0) ? dataDB.allOrders.filter(e => e.nameShop === dataDB.listBot[0].nameShop) : [],[dataDB.allOrders, dataDB.length,dataDB.listBot])
 
-  orderProducts?.forEach(e => {
-    const product = allProducts.find(s => s.id === Number(e.idProduct))
+  useEffect(() => {
 
-    if (product) {
-      return myProduct.push({ ...e, ...product })
-    }
+    const prod = []
 
-  })
+    orderProducts?.forEach(e => {
+      const product = allProducts.find(s => s.id === Number(e.idProduct))
+  
+      if (product) {
+     
+        return  prod.push({ ...e, ...product })
+      }
+  
+    })
+
+    setMyProduct(prod)
+    setAllOrder(prod)
+
+  },[allProducts, orderProducts])
 
   const detailsView = (id) => {
     if (activDetails === id) {
@@ -53,6 +100,9 @@ export const Orders = () => {
       setActivDetails(id)
     }
 
+  }
+  const filter = (value) => {
+    setMyProduct(allOrder.filter(e => e.status === value))
   }
 
   return <>
@@ -79,11 +129,64 @@ export const Orders = () => {
               <div className="settings__title">
                 Ваші замовлення
               </div>
-              {myProduct.reverse().map(e => {
-                const images = e.image.split(',')
 
+              <div className="settings__subtitle">
+                *Зверніть увагу на час замовлення. Якщо час замовлення співпадає з іншими замовленнями, то в такому випадку було замовлено декілька товарів в одному замовленні.
+              </div>
+
+              <div className="orders__filterFlex">
+                  <button 
+                  className="orders__filter orders__filter--noviy"
+                  onClick={() => filter('Новий')}
+                  disabled={(allOrder.filter(e => e.status === 'Новий').length === 0)}  
+                  >
+                    Новий {allOrder.filter(e => e.status === 'Новий').length}
+                  </button>
+
+                  <button 
+                    className="orders__filter orders__filter--prinyato" 
+                    onClick={() => filter('Прийнято')}
+                    disabled={(allOrder.filter(e => e.status === 'Прийнято').length === 0)}  
+                  >
+                    Прийнято {allOrder.filter(e => e.status === 'Прийнято').length}
+                  </button>
+
+                  <button 
+                  className="orders__filter orders__filter--gotovo" 
+                  onClick={() => filter('Виконано')}
+                  disabled={(allOrder.filter(e => e.status === 'Виконано').length === 0)}
+                  >
+                    Виконано {allOrder.filter(e => e.status === 'Виконано').length}
+                  </button>
+
+                  <button 
+                  className="orders__filter orders__filter--cancel" 
+                  onClick={() => filter('Скасовано')}
+                  disabled={(allOrder.filter(e => e.status === 'Скасовано').length === 0)}
+                  >
+                    Скасовано {allOrder.filter(e => e.status === 'Скасовано').length}
+                  </button>
+              </div>
+
+              {
+                (status === 'ok') ?
+                  <div className="settings__statusOk">
+                    Зміни застосовано
+                  </div> : null
+              }
+              {
+                (status === 'err') ?
+                  <div className="settings__statusFail">
+                    Помилка. Зверніться в тех. підтримку
+                  </div> : null
+              }
+
+              {myProduct.reverse().map((e, index) => {
+                const images = e?.image?.split(',')
+    
                 return (
                   <div className="orders__product" key={e.ids}>
+                    
                     <div className="orders__header">
 
                       <div className="orders__status">
@@ -112,22 +215,22 @@ export const Orders = () => {
                             <div className='orders__status--option'>
                               {
                                 options.map((option) => (
-                                  <div 
-                                  key={option.value} 
-                                  className='orders__status--optionText'
-                                  onClick={() => handleOptionClick(option.value, e.ids)}
-                                  style={
-                                    (option.value === 'Новий') ? { color: 'orange' } :
-                                      (option.value === 'Прийнято') ? { color: 'black' } :
-                                        (option.value === 'Виконано') ? { color: 'green' } :
-                                          (option.value === 'Скасовано') ? { color: 'red' } : null}
+                                  <div
+                                    key={option.value}
+                                    className='orders__status--optionText'
+                                    onClick={() => handleOptionClick(option.value, e.ids)}
+                                    style={
+                                      (option.value === 'Новий') ? { color: 'orange' } :
+                                        (option.value === 'Прийнято') ? { color: 'black' } :
+                                          (option.value === 'Виконано') ? { color: 'green' } :
+                                            (option.value === 'Скасовано') ? { color: 'red' } : null}
                                   >
                                     {option.label}
                                   </div>
                                 ))
                               }
                             </div>
-                            
+
                           )}
                         </div>
 

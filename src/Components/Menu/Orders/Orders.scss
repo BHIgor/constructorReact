@@ -6,11 +6,55 @@
   color: gray;
   margin-bottom: 5px;
 }
+
+.settings{
+
+  &__subtitle{
+    font-size: 12px;
+    color: gray;
+    margin: 10px;
+
+  }
+}
 .orders{
   @include flexColumn();
   @include productFont();
 
   margin-bottom: 70px;
+
+  &__filterFlex{
+    display: flex;
+
+    justify-content: space-around;
+  }
+
+  &__filter{
+    border: 1px solid rgb(211, 211, 211);
+    padding: 4px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    color: white;
+    border: 0;
+
+    &:disabled{
+      opacity: 0.5;
+    }
+
+    &--noviy{
+      background-color: orange;
+    }
+    &--prinyato{
+      background-color: rgb(46, 46, 46);
+    }
+    &--gotovo{
+      background-color: green;
+    }
+    &--cancel{
+      background-color: red;
+    }
+  }
+
   &__title{
     font-size: 22px;
     margin-top: 20px;
@@ -91,7 +135,7 @@
 
     &--date{
       color: gray;
-      font-size: 13px;
+      font-size: 14px;
 
     }
 
