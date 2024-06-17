@@ -178,7 +178,7 @@ console.log(activDetails)
                   </div> : null
               }
 
-              {myProduct.reverse().map((e, index) => {
+              {myProduct.map((e, index) => {
                 const images = e?.image?.split(',')
 
                 return (

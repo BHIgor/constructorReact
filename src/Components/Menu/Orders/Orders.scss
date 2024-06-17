@@ -3,7 +3,6 @@
 
 .subtitle{
   font-size: 14px;
-  width: 142px;
   color: gray;
   margin-bottom: 5px;
 }
@@ -132,7 +131,7 @@
   &__status{
     display: flex;
     align-items: center;
-
+    gap: 10px;
 
     &--date{
       color: gray;
