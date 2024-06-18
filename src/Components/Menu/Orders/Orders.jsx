@@ -81,7 +81,7 @@ export const Orders = () => {
 
     })
 
-    setMyProduct(prod.filter(e => e.status === currentStatus))
+    setMyProduct((prod.filter(e => e.status === currentStatus).length === 0) ? prod:prod.filter(e => e.status === currentStatus))
     setAllOrder(prod)
 
   }, [allProducts, orderProducts, currentStatus])
@@ -99,9 +99,8 @@ export const Orders = () => {
   const filter = (value) => {
     setMyProduct(allOrder.filter(e => e.status === value))
 
-
   }
-console.log(activDetails)
+
   return <>
     {(dataDB.length === 0) ? <div>Помилка</div> : <>
       <div className='orders'>
