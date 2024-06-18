@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { ReactContext } from "../../../context/ReactContext"
 
-
 import './Import.scss';
 import { animateScroll as scroll } from 'react-scroll';
 
@@ -9,6 +8,11 @@ export const Import = ({ setMenu }) => {
   const { dataDB, setDataDB } = useContext(ReactContext);
   const [status, setStatus] = useState('no')
   const [value, setValue] = useState('')
+  const [newImageUrl, setNewImageUrl] = useState('');
+
+  const imgbbApiKey = '60cda1ca7c5538c9a8a026499beff8ad'; // Замените на ваш API ключ imgbb
+
+
   console.log(value)
   const scrollToTop = () => {
     scroll.scrollToTop({ duration: 20 });
@@ -41,12 +45,37 @@ export const Import = ({ setMenu }) => {
           console.log(data)
           const importProduct = []
 
-          data.map((e, index) => {
-           
+          data.map(async (e, index) => {
+    
+            try {
+              // Загрузите изображение по ссылке
+              const response = await fetch(e.img);
+              const blob = await response.blob();
+        
+              // Створіть FormData для завантаження на imgbb
+              const formData = new FormData();
+              formData.append('image', blob);
+        
+              // Завантажте зображення на imgbb
+              const imgbbResponse = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
+                method: 'POST',
+                mode: "no-cors",
+                headers: {
+                  'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: formData,
+              });
+        
+              const result = await imgbbResponse.json();
+              setNewImageUrl(result.data.url);
+            } catch (error) {
+              console.error('Error uploading the image:', error);
+            }
+
            return importProduct.push({
               id:maxId + 1 + index,
               title:e?.text?.substring(0, 20),
-              image: e.img,
+              image: newImageUrl,
               kategory:'Без категорії',
               description: e.text,
               nayavno:'yes',

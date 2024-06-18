@@ -66,7 +66,7 @@ export const Product = ({ products }) => {
                   <div className='product__page--leftBlock'>
                     <div className='product__page--imgBlock'>
                       <img
-                        src={`${images[0]}`}
+                        src={images[0]}
                         alt='Нема фото'
                         className='product__page--image'
                       />
