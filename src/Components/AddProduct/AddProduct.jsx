@@ -125,6 +125,7 @@ export const AddProduct = () => {
     setDiscount(0)
     setSelectedCategory('')
     setOtherCategory('')
+    const maxId = dataDB.products.reduce((maxId, item) => (item.id > maxId ? item.id : maxId), 0);
     try {
       fetch(`https://tgconstructor.com.ua/settings`, {
         method: 'POST',
@@ -148,7 +149,7 @@ export const AddProduct = () => {
         .then((response) => {
           setStatus('ok')
           setDataDB(prevState => ({
-            ...dataDB, products: [...prevState.products, {id:dataDB.products.length,title:title,image:arrImg.join(','),kategory:category,description:description,nayavno:nayav,stars:star,top:top,price:price,price_discount:discount}]
+            ...dataDB, products: [...prevState.products, {id:maxId +1,title:title,image:arrImg.join(','),kategory:category,description:description,nayavno:nayav,stars:star,top:top,price:price,price_discount:discount}]
           }))
           setTimeout(() => {
             setStatus('no')

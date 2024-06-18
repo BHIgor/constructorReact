@@ -1,7 +1,6 @@
 import { useContext, useEffect, useMemo, useState, } from 'react';
 import { ReactContext } from "../../context/ReactContext"
 import { animateScroll as scroll } from 'react-scroll';
-
 import './Product.scss';
 import { Link } from 'react-router-dom';
 
@@ -61,12 +60,13 @@ export const Product = ({ products }) => {
           <div className="product__container">
             {products.map(e => {
               const images = e.image.split(',')
+            
               return (
                 <div key={e.id} className='product__page'>
                   <div className='product__page--leftBlock'>
                     <div className='product__page--imgBlock'>
                       <img
-                        src={images[0]}
+                        src={`${images[0]}`}
                         alt='Нема фото'
                         className='product__page--image'
                       />

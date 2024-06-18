@@ -22,6 +22,7 @@ import { EditProduct } from './Components/AddProduct/EditProduct/EditProduct';
 import { SearchResult } from './Components/Mainpage/Search/SearchResult/SearchResult';
 import { Orders } from './Components/Menu/Orders/Orders';
 import { ProductPage } from './Components/Product/ProductPage/ProductPage';
+import { Import } from './Components/Menu/Import/Import';
 
 const search = window.location.search
 const tg = window.Telegram.WebApp;
@@ -86,6 +87,7 @@ function App() {
             <Route path='/Pay' exact element={<Pay/>}/>
             <Route path='/Contacts' exact element={<Contacts/>}/>
             <Route path='/Katalog' exact element={<Katalog/>}/>
+            <Route path='/Import' exact element={<Import/>}/>
             <Route path='/AddProduct' exact element={<AddProduct/>}/>
             <Route path='/Orders' exact element={<Orders/>}/>
             <Route path='/SearchResult' exact element={<SearchResult/>}/>
