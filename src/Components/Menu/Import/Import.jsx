@@ -46,51 +46,64 @@ export const Import = ({ setMenu }) => {
           const importProduct = []
 
           data.map(async (e, index) => {
-    
+
             try {
               // Загрузите изображение по ссылке
-              const response = await fetch(e.img);
+              const response = await fetch(`https://cors-anywhere.herokuapp.com/${e.img}`, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+              console.log(response)
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+
               const blob = await response.blob();
-        
+
               // Створіть FormData для завантаження на imgbb
               const formData = new FormData();
               formData.append('image', blob);
-        
+
               // Завантажте зображення на imgbb
               const imgbbResponse = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
                 method: 'POST',
-                mode: "no-cors",
-                headers: {
-                  'Content-Type': 'application/json;charset=utf-8'
-                },
                 body: formData,
               });
-        
+
+              if (!imgbbResponse.ok) {
+                throw new Error(`HTTP error! status: ${imgbbResponse.status}`);
+              }
+
               const result = await imgbbResponse.json();
+
               setNewImageUrl(result.data.url);
             } catch (error) {
               console.error('Error uploading the image:', error);
             }
 
-           return importProduct.push({
-              id:maxId + 1 + index,
-              title:e?.text?.substring(0, 20),
+            return importProduct.push({
+              id: maxId + 1 + index,
+              title: e?.text?.substring(0, 20),
               image: newImageUrl,
-              kategory:'Без категорії',
+              kategory: 'Без категорії',
               description: e.text,
-              nayavno:'yes',
-              stars:5,
-              top:'no',
-              price:0,
-              price_discount:0})
+              nayavno: 'yes',
+              stars: 5,
+              top: 'no',
+              price: 0,
+              price_discount: 0
+            })
           })
           setStatus('ok')
 
           setTimeout(() => {
             setStatus('no')
           }, 5000)
-        setDataDB(prevState => ({
-            ...dataDB, products: [...prevState.products, ...importProduct] }))
+          setDataDB(prevState => ({
+            ...dataDB, products: [...prevState.products, ...importProduct]
+          }))
 
         })
         .catch(e => {
@@ -142,7 +155,7 @@ export const Import = ({ setMenu }) => {
               <div className="settings__body--title">
                 Графік роботи
               </div>
-
+                  <img src="https://scontent-iev1-1.cdninstagram.com/v/t51.29350-15/434587835_1103421521076934_5445111499790207990_n.jpg?stp=dst-jpg_e15_p360x360&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMDgweDE5MjAuc2RyLmYyOTM1MCJ9&_nc_ht=scontent-iev1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=zhwFS7JSjpYQ7kNvgEIceE6&edm=ABmJApABAAAA&ccb=7-5&ig_cache_key=MzMzMzA5MTAyMDc0NzQzOTM4OA%3D%3D.2-ccb7-5&oh=00_AYCINT0hsz6cVhshp9PFEjc70Ee0MlZKuPsshCAZ8pVcSw&oe=66750BCC&_nc_sid=b41fef" alt="ss" crossOrigin="anonymous"/>
               <textarea
                 className="settings__body--textArea"
                 defaultValue={dataDB.settings[0].grafik}
