@@ -8,7 +8,25 @@ export const Mainpage = ({ setMenu }) =>{
 
   return <> 
     { (dataDB.length === 0) ? <div>Помилка</div> : <>
-     fsdgdf
+      <div className="grafik">
+        <div className="settings__title">
+          Панель управління
+        </div>
+
+
+        <div className="settings__container">
+          <div className="settings__body">
+            <div className="settings__body--border">
+              <div className="settings__body--title">
+                Загальна кількість відвідувачів
+              </div>
+
+            
+             
+            </div>
+          </div>
+        </div>
+      </div>
     </>
     }
   </>
