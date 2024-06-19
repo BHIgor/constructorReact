@@ -1,0 +1,92 @@
+@import '../../../fonts/fonts.scss';
+@import '../../mixin/mixins.scss';
+
+.import {
+  margin-bottom: 70px;
+
+  @include productFont();
+
+  &__body {
+
+    &--border {
+      border: 1px solid rgb(227, 227, 227);
+      padding: 20px 25px 0 25px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__subTitle {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  &__typeFileBlock {
+    display: flex;
+    justify-content: space-around;
+
+    &--typeFile {
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      border: 2px solid white;
+    }
+  }
+
+  &__excel {
+    margin-top: 10px;
+    margin-bottom: 20px;
+
+    &--title {
+      font-weight: bold;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    &--button {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  &__data {
+    text-align: center;
+
+    &--count {
+      font-size: 13px;
+      margin-top: 7px;
+    }
+
+    &--subtitle {
+      color: gray;
+      font-size: 11px;
+      margin-top: 10px;
+    }
+  }
+
+  &__columns {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    &--flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &--text {
+      font-size: 14px;
+    }
+
+    &--select {
+      width: 160px;
+      height: 20px;
+    }
+  }
+
+  &__start {
+    margin-top: 20px;
+  }
+}

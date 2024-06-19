@@ -59,7 +59,7 @@ export const Product = ({ products }) => {
 
           <div className="product__container">
             {products.map(e => {
-              const images = e.image.split(',')
+              const images = e?.image?.split(',')
             
               return (
                 <div key={e.id} className='product__page'>
@@ -69,6 +69,7 @@ export const Product = ({ products }) => {
                         src={images[0]}
                         alt='Нема фото'
                         className='product__page--image'
+                       referrerPolicy="origin"
                       />
                     </div>
 

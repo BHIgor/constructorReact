@@ -1,29 +1,63 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { ReactContext } from "../../../context/ReactContext"
-
+import * as XLSX from 'xlsx';
 import './Import.scss';
 import { animateScroll as scroll } from 'react-scroll';
 
 export const Import = ({ setMenu }) => {
   const { dataDB, setDataDB } = useContext(ReactContext);
   const [status, setStatus] = useState('no')
-  const [value, setValue] = useState('')
-  const [newImageUrl, setNewImageUrl] = useState('');
+  const [type, setType] = useState('Excel')
+  const fileInputRef = useRef(null);
+  const [uploading, setUploading] = useState(false);
+  const [objKeys, setObjKeys] = useState([])
+  const [excelData, setExcelData] = useState([]);
 
-  const imgbbApiKey = '60cda1ca7c5538c9a8a026499beff8ad'; // Замените на ваш API ключ imgbb
+  const [title, setTitle] = useState('Без назви')
+  const [image, setImage] = useState('Без фото')
+  const [kategory, setKategory] = useState('Без категорії')
+  const [description, setDescription] = useState('Без опису')
+  const [nayavno, setNayavno] = useState('yes')
+  const [price, setPrice] = useState('Без ціни')
+
+  const handleSelectPrice = (event) => {
+    setPrice(event.target.value)
+  };
+
+  const handleSelectNayavno = (event) => {
+    setNayavno(event.target.value)
+  };
+
+  const handleSelectDescription = (event) => {
+    setDescription(event.target.value)
+  };
+
+  const handleSelectKategory = (event) => {
+    setKategory(event.target.value)
+  };
+
+  const handleSelectImage = (event) => {
+    setImage(event.target.value)
+  };
+
+  const handleSelectTitle = (event) => {
+    setTitle(event.target.value)
+  };
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
 
 
-  console.log(value)
   const scrollToTop = () => {
     scroll.scrollToTop({ duration: 20 });
   };
 
-  const handleValue = (event) => {
-    setValue(event.target.value);
-  };
+
   const sendChange = () => {
     scrollToTop()
     const maxId = dataDB.products.reduce((maxId, item) => (item.id > maxId ? item.id : maxId), 0);
+
     try {
       fetch(`https://tgconstructor.com.ua/settings`, {
         method: 'POST',
@@ -31,10 +65,16 @@ export const Import = ({ setMenu }) => {
           'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify({
-          operation: 'Імпорт инста',
+          operation: 'Імпорт excel',
           nameShop: dataDB.listBot[0].nameShop,
-          postCount: 10,
-          username: 'naprocente'
+          title: (title === 'Без назви') ? 'Без назви' : title,
+          image: (image === 'Без фото') ? 'Без фото' : image,
+          kategory: (kategory === 'Без категорії') ? 'Без категорії' : kategory,
+          description: (description === 'Без опису') ? 'Без опису' : description,
+          nayavno: nayavno,
+          price: (price === 'Без ціни') ? 0 : price,
+          excelData: excelData,
+
         })
       })
         .then((response) => {
@@ -42,68 +82,29 @@ export const Import = ({ setMenu }) => {
           return response.json();
         })
         .then((data) => {
-          console.log(data)
-          const importProduct = []
 
-          data.map(async (e, index) => {
-
-            try {
-              // Загрузите изображение по ссылке
-              const response = await fetch(`https://cors-anywhere.herokuapp.com/${e.img}`, {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              });
-              console.log(response)
-              if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-              }
-
-              const blob = await response.blob();
-
-              // Створіть FormData для завантаження на imgbb
-              const formData = new FormData();
-              formData.append('image', blob);
-
-              // Завантажте зображення на imgbb
-              const imgbbResponse = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
-                method: 'POST',
-                body: formData,
-              });
-
-              if (!imgbbResponse.ok) {
-                throw new Error(`HTTP error! status: ${imgbbResponse.status}`);
-              }
-
-              const result = await imgbbResponse.json();
-
-              setNewImageUrl(result.data.url);
-            } catch (error) {
-              console.error('Error uploading the image:', error);
-            }
-
-            return importProduct.push({
+          excelData.map((e, index) => setDataDB(prevState => ({
+            ...dataDB, products: [...prevState.products, {
               id: maxId + 1 + index,
-              title: e?.text?.substring(0, 20),
-              image: newImageUrl,
-              kategory: 'Без категорії',
-              description: e.text,
-              nayavno: 'yes',
+              title: (title === 'Без назви') ? 'Без назви' : e[title],
+              image: (image === 'Без фото') ? 'Без фото' : e[image],
+              kategory: (kategory === 'Без категорії') ? 'Без категорії' : e[kategory],
+              description: (description === 'Без опису') ? 'Без опису' : e[description],
+              nayavno: nayavno,
               stars: 5,
               top: 'no',
-              price: 0,
+              price: (price === 'Без ціни') ? 0 : Number(e[price]),
               price_discount: 0
-            })
-          })
-          setStatus('ok')
+            }]
+          }))
+          )
 
+          setStatus('ok')
+          setExcelData([]);
           setTimeout(() => {
             setStatus('no')
           }, 5000)
-          setDataDB(prevState => ({
-            ...dataDB, products: [...prevState.products, ...importProduct]
-          }))
+
 
         })
         .catch(e => {
@@ -122,16 +123,86 @@ export const Import = ({ setMenu }) => {
     }
   }
 
+  /*
+    const [xmlText, setXmlText] = useState('');
+    const [parsedData, setParsedData] = useState(null);
+  
+    const handleFileChange = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+  
+      reader.onload = (e) => {
+        const xml = e.target.result;
+        setXmlText(xml);
+        parseXML(xml);
+      };
+  
+      reader.readAsText(file);
+    };
+  
+    const parseXML = (xml) => {
+      try {
+        const parsed = new XMLParser().parseFromString(xml);
+        setParsedData(parsed);
+      } catch (error) {
+        console.error('Error parsing XML:', error);
+        setParsedData(null);
+      }
+    };
+  */
 
-  useEffect(() => {
-    setValue((dataDB.length === 0) ? '' : dataDB.settings[0].grafik)
 
-  }, [dataDB.length, dataDB.settings])
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
 
+    if (file) {
+      setUploading(true);
+      try {
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
+          // Преобразование массива данных в объект
+          if (jsonData.length > 1) {
+            const headers = jsonData[0];
+            const rows = jsonData.slice(1);
+
+            const formattedData = rows.map(row => {
+              let obj = {};
+              headers.forEach((header, index) => {
+                obj[header] = row[index];
+              });
+              return obj;
+            });
+
+            setExcelData(formattedData);
+            setObjKeys(Object.keys(formattedData[0]))
+
+          } else {
+            // Если данных нет или они некорректны, сбросить excelData
+            setExcelData([]);
+          }
+        };
+
+        fileReader.readAsArrayBuffer(file);
+      } catch (error) {
+        console.error("Error uploading file: ", error);
+      } finally {
+        setUploading(false);
+      }
+
+    }
+  };
+
+  console.log(kategory)
+  console.log(title)
   return <>
     {(dataDB.length === 0) ? <div>Помилка</div> : <>
-      <div className="grafik">
+      <div className="import">
         <div className="settings__title">
           Імпорт товарів
         </div>
@@ -139,7 +210,7 @@ export const Import = ({ setMenu }) => {
         {
           (status === 'ok') ?
             <div className="settings__statusOk">
-              Зміни застосовано
+              Імпорт успішно завершений
             </div> : null
         }
         {
@@ -151,26 +222,264 @@ export const Import = ({ setMenu }) => {
 
         <div className="settings__container">
           <div className="settings__body">
-            <div className="settings__body--border">
-              <div className="settings__body--title">
-                Графік роботи
+            <div className="import__body--border">
+              <div className="settings__body--title import__subTitle">
+                Завантажте excel файл
               </div>
-                  <img src="https://scontent-iev1-1.cdninstagram.com/v/t51.29350-15/434587835_1103421521076934_5445111499790207990_n.jpg?stp=dst-jpg_e15_p360x360&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMDgweDE5MjAuc2RyLmYyOTM1MCJ9&_nc_ht=scontent-iev1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=zhwFS7JSjpYQ7kNvgEIceE6&edm=ABmJApABAAAA&ccb=7-5&ig_cache_key=MzMzMzA5MTAyMDc0NzQzOTM4OA%3D%3D.2-ccb7-5&oh=00_AYCINT0hsz6cVhshp9PFEjc70Ee0MlZKuPsshCAZ8pVcSw&oe=66750BCC&_nc_sid=b41fef" alt="ss" crossOrigin="anonymous"/>
-              <textarea
-                className="settings__body--textArea"
-                defaultValue={dataDB.settings[0].grafik}
-                onChange={handleValue}
-                placeholder='Потрібно описати свій графік роботи...'
-              />
 
-              <button
-                className="settings__body--submit"
-                style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
-                // disabled={(dataDB.settings[0].grafik === value)}
-                onClick={() => sendChange()}
-              >
-                Застосувати
-              </button>
+              <div className="import__typeFileBlock">
+                <div
+                  className="import__typeFileBlock--typeFile"
+                  style={(type === 'Excel') ? { backgroundColor: dataDB.settings[0].clButtonProduct, border: '2px solid black' } : { backgroundColor: dataDB.settings[0].clButtonProduct }}
+                  onClick={() => setType('Excel')}
+                >
+                  Excel .xls .xlsx
+                </div>
+
+               
+              </div>
+
+              {
+                (type === 'Excel') ?
+                  <>
+                    <div className="import__excel">
+                
+
+                      <div className="import__excel--button">
+                        <button
+                          className="addProduct__slider--addPhoto"
+                          style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
+                          onClick={handleButtonClick}
+                          disabled={uploading}
+                        >
+                          {uploading ? 'Завантаження...' : 'Вибрати файл'}
+                        </button>
+
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          accept=".xls, .xlsx"
+                          onChange={handleFileChange}
+                          className="hidden-file-input"
+                        />
+                      </div>
+
+
+                      {(excelData.length > 0) ?
+                        <>
+                          <div className="import__data">
+                            <div className="import__data--count">
+                              Знайдено {excelData.length} позицій
+                            </div>
+
+                            <div className="import__data--subtitle">
+                              Встановіть відповідність колонок файлу
+                            </div>
+
+                            <div className="import__columns">
+                              <div className="import__columns--flex">
+                                <div className="import__columns--text">
+                                  Назва товара
+                                </div>
+
+                                <div className="import__columns--value">
+                                  {
+                                    <select
+                                      value={title}
+                                      className="import__columns--select"
+                                      onChange={handleSelectTitle}
+                                    >
+                                      <option value='Без назви'>
+                                        Без назви
+                                      </option>
+
+                                      {objKeys.map((e, index) =>
+                                        <option value={e} key={index}>{e}</option>
+
+                                      )
+                                      }
+
+                                    </select>
+                                  }
+                                </div>
+                              </div>
+
+                              <div className="import__columns--flex">
+                                <div className="import__columns--text">
+                                  Фото товара
+                                </div>
+
+                                <div className="import__columns--value">
+                                  {
+                                    <select
+                                      value={image}
+                                      className="import__columns--select"
+                                      onChange={handleSelectImage}
+                                    >
+                                      <option value='Без фото'>
+                                        Без фото
+                                      </option>
+
+                                      {objKeys.map((e, index) =>
+                                        <option value={e} key={index}>{e}</option>
+
+                                      )
+                                      }
+
+                                    </select>
+                                  }
+                                </div>
+                              </div>
+
+                              <div className="import__columns--flex">
+                                <div className="import__columns--text">
+                                  Категорія товара
+                                </div>
+
+                                <div className="import__columns--value">
+                                  {
+                                    <select
+                                      value={kategory}
+                                      className="import__columns--select"
+                                      onChange={handleSelectKategory}
+                                    >
+                                      <option value='Без категорії'>
+                                        Без категорії
+                                      </option>
+
+                                      {objKeys.map((e, index) =>
+                                        <option value={e} key={index}>{e}</option>
+
+                                      )
+                                      }
+
+                                    </select>
+                                  }
+                                </div>
+                              </div>
+
+                              <div className="import__columns--flex">
+                                <div className="import__columns--text">
+                                  Опис товара
+                                </div>
+
+                                <div className="import__columns--value">
+                                  {
+                                    <select
+                                      value={description}
+                                      className="import__columns--select"
+                                      onChange={handleSelectDescription}
+                                    >
+                                      <option value='Без опису'>
+                                        Без опису
+                                      </option>
+
+                                      {objKeys.map((e, index) =>
+                                        <option value={e} key={index}>{e}</option>
+
+                                      )
+                                      }
+
+                                    </select>
+                                  }
+                                </div>
+                              </div>
+
+                              <div className="import__columns--flex">
+                                <div className="import__columns--text">
+                                  Наявність товара
+                                </div>
+
+                                <div className="import__columns--value">
+                                  {
+                                    <select
+                                      value={nayavno}
+                                      className="import__columns--select"
+                                      onChange={handleSelectNayavno}
+                                    >
+                                      <option value='Є в наявності'>
+                                        Є в наявності
+                                      </option>
+
+                                      <option value='Немає в наявності'>
+                                        Немає в наявності
+                                      </option>
+
+                                    </select>
+                                  }
+                                </div>
+                              </div>
+
+                              <div className="import__columns--flex">
+                                <div className="import__columns--text">
+                                  Ціна товара
+                                </div>
+
+                                <div className="import__columns--value">
+                                  {
+                                    <select
+                                      value={price}
+                                      className="import__columns--select"
+                                      onChange={handleSelectPrice}
+                                    >
+                                      <option value='Без ціни'>
+                                        Без ціни
+                                      </option>
+
+                                      {objKeys.map((e, index) =>
+                                        <option value={e} key={index}>{e}</option>
+
+                                      )
+                                      }
+
+                                    </select>
+                                  }
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+
+
+                          <button
+                            className="settings__body--submit import__start"
+                            style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
+                            onClick={() => sendChange()}
+                          >
+                            Застосувати
+                          </button>
+                        </>
+                        : null
+                      }
+                    </div>
+                  </> : null
+              }
+
+
+
+
+
+
+
+              {
+
+            /*
+         
+              <input type="file" accept=".xml" onChange={handleFileChange} />
+              <div style={{ marginTop: '20px' }}>
+                <h2>XML Content:</h2>
+                <pre>{xmlText}</pre>
+              </div>
+              <div style={{ marginTop: '20px' }}>
+                <h2>Parsed Data:</h2>
+                {parsedData ? (
+                  <pre>{JSON.stringify(parsedData, null, 2)}</pre>
+                ) : (
+                  <p>No data parsed yet. Upload an XML file above.</p>
+                )}
+              </div>
+  */}
+
             </div>
           </div>
         </div>

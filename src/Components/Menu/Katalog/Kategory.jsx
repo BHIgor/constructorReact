@@ -87,9 +87,9 @@ export const Kategory = () =>{
                   Всі товари
                 </Link>
               </SwiperSlide>
-              { uniquArray.map(e =>{
+              { uniquArray.map((e, index) =>{
                 return (
-                  <SwiperSlide className='kategory__slider--item' key={e}  >
+                  <SwiperSlide className='kategory__slider--item' key={index}  >
                     <Link 
                       to={`/Kategory/${e}?${dataDB.listBot[0].nameShop}`} className='kategory__slider--link'
                       style={{border: `1px solid ${dataDB.settings[0].clHeader}`}}
