@@ -1,5 +1,8 @@
 .main{
-
+  margin-bottom: 80px;
+  &__listi{
+    font-size: 14px;
+  }
   &__statisBlock{
     display: flex;
     justify-content: space-between;
@@ -44,6 +47,73 @@
   &__body{
 
     &--title{
+      color: gray;
+      font-size: 14px;
+    }
+  }
+
+  &__searchMain{
+    margin-bottom: 20px;
+    margin-top: -20px !important;
+    display: flex;
+    justify-content: center;
+
+  }
+
+  &__gridContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  &__gridContainerOne{
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #fff;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &__gridItemOne{
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+
+    &:hover{
+      background-color: rgb(201, 201, 201);
+    }
+  }
+  &__gridItem{
+    padding: 2px;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+
+    &:hover{
+      background-color: rgb(201, 201, 201);
+    }
+  }
+
+  &__footerPid{
+    display: flex;
+    gap: 10px;
+    align-items: center;  
+    margin-top: 15px;
+
+    &--icon{
+      width: 30px !important;
+    }
+
+    &--text{
       color: gray;
       font-size: 14px;
     }

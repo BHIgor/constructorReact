@@ -485,8 +485,13 @@ export const Import = ({ setMenu }) => {
 
         </div>
         <div className="import__footer">
+            *Фото товару має бути посиланням на фото з колонки excel.
+        </div>
+        <br/>
+        <div className="import__footer">
             *Якщо у Вас виникли труднощі з імпортуванням товарів, зверніться в технічну підтримку.
         </div>
+
       </div>
     </>
     }
