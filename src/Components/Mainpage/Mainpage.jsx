@@ -128,7 +128,7 @@ export const Mainpage = ({ setMenu }) => {
 
 
             <div>
-              <div className="main__gridContainer">
+              <div className="main__gridContainer main__gridContainer--top">
                 <NavLink to={`/Katalog?${dataDB.listBot[0].nameShop}`} onClick={() => scrollToTop()} className=' main__gridItem'  >
                   <li className="menu__item">
                     <div className='menu__icon menu__icon--katalog'></div>
@@ -250,7 +250,7 @@ export const Mainpage = ({ setMenu }) => {
                 </NavLink>
               </div>
 
-              <div className="main__gridContainerOne">
+              <div className="main__gridContainerOne main__gridContainerOne--bottom">
                 <NavLink to={`/Garant?${dataDB.listBot[0].nameShop}`} onClick={() => scrollToTop()} className='main__gridItemOne'  >
                   <li className="menu__item">
                     <div className='menu__icon menu__icon--garant'></div>
