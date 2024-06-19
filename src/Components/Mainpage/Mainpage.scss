@@ -1,0 +1,51 @@
+.main{
+
+  &__statisBlock{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &--value{
+      font-weight: bold;
+      font-size: 24px;
+    }
+  }
+
+  &__line{
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+
+  &__activ{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    margin-top: 10px;
+
+  }
+  &__activBlock{
+      
+    &--text{
+      color: gray;
+      font-size: 13px;
+    }
+
+    &--value{
+      font-weight: bold;
+      font-size: 22px;
+    }
+
+    &--margin{
+      margin-right: 7px;
+    }
+  }
+
+  &__body{
+
+    &--title{
+      color: gray;
+      font-size: 14px;
+    }
+  }
+}
