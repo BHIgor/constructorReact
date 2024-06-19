@@ -482,6 +482,10 @@ export const Import = ({ setMenu }) => {
 
             </div>
           </div>
+
+        </div>
+        <div className="import__footer">
+            *Якщо у вас виникли труднощі з імпортуванням товарів, зверніться в технічну підтримку.
         </div>
       </div>
     </>

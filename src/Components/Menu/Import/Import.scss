@@ -6,6 +6,13 @@
 
   @include productFont();
 
+  &__footer{
+    color: gray;
+    text-align: center;
+    padding: 1px 20px;
+    font-size: 13px;
+  }
+
   &__body {
 
     &--border {
