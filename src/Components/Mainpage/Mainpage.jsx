@@ -109,7 +109,7 @@ export const Mainpage = ({ setMenu }) => {
                 </div>
 
                 <div className="main__statisBlock--value" style={{ color: 'red' }}>
-                  {filterDates(dataDB.allUsers, minus5MinutesDate).length}
+                  {(filterDates(dataDB.allUsers, minus5MinutesDate).length) - 1}  
                 </div>
               </div>
 
