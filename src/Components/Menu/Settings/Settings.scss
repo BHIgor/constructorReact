@@ -74,6 +74,23 @@
       }
     }
 
+    &--textAreaMessage{
+      margin-top: 7px;
+      padding: 5px;
+      height: 110px;
+      resize: none;
+      width: 250px;
+      font-size: 15px;
+      border-radius: 5px;
+      border: 1px solid rgb(186, 185, 185);
+      outline: none;
+      margin-bottom: 15px;
+
+      &:placeholder-shown{
+        font-size: 14px;
+      }
+    }
+
     &--submit{
       padding: 5px;
       height: 35px;

@@ -16,6 +16,8 @@ export const Settings = () => {
   const [tiktok, setTiktok] = useState('')
   const [slider, setSlider] = useState([])
 
+  const [messageStart, setMessageStart] = useState('')
+
   const fileInputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
 
@@ -57,7 +59,7 @@ export const Settings = () => {
         body: JSON.stringify({
           operation: 'Слайдер',
           nameShop: dataDB.listBot[0].nameShop,
-          slider: (slider[0] === '') ? data.data.url: [...slider, data.data.url].join(','),
+          slider: (slider[0] === '') ? data.data.url : [...slider, data.data.url].join(','),
         })
       })
         .then((response) => {
@@ -97,6 +99,10 @@ export const Settings = () => {
     setInstagram(event.target.value);
   };
 
+  const handleMessageStart = (event) => {
+    setMessageStart(event.target.value);
+  };
+
   const handleFacebook = (event) => {
     setFacebook(event.target.value);
   };
@@ -117,6 +123,50 @@ export const Settings = () => {
   const scrollToTop = () => {
     scroll.scrollToTop({ duration: 20 });
   };
+
+  const sendMessage = () => {
+     scrollToTop()
+
+    try {
+      fetch(`https://tgconstructor.com.ua/settings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({
+          operation: 'Стартовий текст',
+          nameShop: dataDB.listBot[0].nameShop,
+          message: messageStart
+        })
+      })
+        .then((response) => {
+          setStatus('ok')
+          setDataDB(prevState => ({
+            ...dataDB, settings: prevState.settings.map((item, i) =>
+              i === 0 ? { ...item, message: messageStart } : item
+            )
+          }))
+
+          setTimeout(() => {
+            setStatus('no')
+          }, 5000)
+          return response.json();
+        })
+        .catch(e => {
+          setStatus('err')
+
+          setTimeout(() => {
+            setStatus('no')
+          }, 5000)
+
+          console.log(e)
+          return false
+        })
+
+    } catch (e) {
+      return false;
+    }
+  }
 
   const sendChange = () => {
     scrollToTop()
@@ -312,17 +362,17 @@ export const Settings = () => {
               <div className="settings__slider">
                 {
                   (dataDB.settings[0].slider !== '') ?
-                  dataDB.settings[0].slider.split(',').map((e, index) => {
-                    return (<div key={index}>
-                      <div className="settings__slider--blockIcon" onClick={() => deleteSliderImg(index)}>
-                        <div className="settings__slider--icon"></div>
-                      </div>
-                      <img src={e} alt="Фото слайдера" className='settings__slider--img' />
+                    dataDB.settings[0].slider.split(',').map((e, index) => {
+                      return (<div key={index}>
+                        <div className="settings__slider--blockIcon" onClick={() => deleteSliderImg(index)}>
+                          <div className="settings__slider--icon"></div>
+                        </div>
+                        <img src={e} alt="Фото слайдера" className='settings__slider--img' />
 
-                    </div>
-                    )
-                  })
-                  :null
+                      </div>
+                      )
+                    })
+                    : null
 
                 }
               </div>
@@ -338,12 +388,34 @@ export const Settings = () => {
                 </button>
 
                 <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                className="hidden-file-input"
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  className="hidden-file-input"
+                />
+              </div>
+            </div>
+
+            <div className="settings__body--border">
+              <div className="settings__body--title">
+                Текст після команди /start
+              </div>
+
+              <textarea
+                className="settings__body--textAreaMessage"
+                defaultValue={dataDB.settings[0].message}
+                onChange={handleMessageStart}
+                placeholder='Напишіть текст, який буде показаний після команди /start...'
               />
-              </div>    
+
+              <button
+                className="settings__body--submit settings__body--submit2"
+                style={{ backgroundColor: dataDB.settings[0].clButtonProduct }}
+                disabled={(messageStart !== '')? false: true}
+                onClick={() => sendMessage()}
+              >
+                Застосувати
+              </button>
             </div>
 
             <div className="settings__body--border">
