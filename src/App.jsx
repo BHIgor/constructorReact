@@ -68,18 +68,20 @@ function App() {
 
   console.log(dataDB)
   let idAdmin
-  let activShop
+  let activShop = []
+  let activShopes = []
   if(dataDB.length !== 0){
     idAdmin = dataDB?.listBot[0]?.idAdmin
   
     activShop = dataDB?.admins?.filter(e => e.idUser === idAdmin)
+    activShopes = dataDB?.listBot?.filter(e => e.idAdmin === idAdmin && e.activ !== 'stop')
   }
 
   return (
     <div className="app">
       <ReactContext.Provider value={{ dataDB, setDataDB }}>
       {
-            (activShop[0]?.activ === 'no' || activShop[0]?.activ !== 'stop') ? <>
+            (activShop[0]?.activ === 'no' || activShopes.length === 0) ? <>
                <NoTarif/>
             </> :
               <>
