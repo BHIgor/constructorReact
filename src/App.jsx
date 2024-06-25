@@ -23,6 +23,7 @@ import { SearchResult } from './Components/Mainpage/Search/SearchResult/SearchRe
 import { Orders } from './Components/Menu/Orders/Orders';
 import { ProductPage } from './Components/Product/ProductPage/ProductPage';
 import { Import } from './Components/Menu/Import/Import';
+import { NoTarif } from './Components/Mainpage/NoTarif/NoTarif';
 
 const search = window.location.search
 const tg = window.Telegram.WebApp;
@@ -66,11 +67,22 @@ function App() {
   });
 
   console.log(dataDB)
-
+  let idAdmin
+  let activShop
+  if(dataDB.length !== 0){
+    idAdmin = dataDB?.listBot[0]?.idAdmin
+  
+    activShop = dataDB?.admins?.filter(e => e.idUser === idAdmin)
+  }
 
   return (
     <div className="app">
       <ReactContext.Provider value={{ dataDB, setDataDB }}>
+      {
+            (activShop[0]?.activ === 'no' || activShop[0]?.activ !== 'stop') ? <>
+               <NoTarif/>
+            </> :
+              <>
        <div className='footerTop' style={menu ? {overflowY:'hidden'}:null}>
         <Header setMenu={setMenu}/>
         <Menu setMenu={setMenu} menu={menu}/>
@@ -96,9 +108,11 @@ function App() {
             
           </Routes>
         </div>
+      
 
       <FooterLine setMenu={setMenu}/>
-      
+      </>
+        }
         
       </ReactContext.Provider>
     </div>

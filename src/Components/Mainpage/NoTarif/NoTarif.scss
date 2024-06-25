@@ -1,0 +1,28 @@
+@import '../../../fonts/fonts.scss';
+@import '../../../Components/mixin/mixins.scss';
+
+.notarif{
+  padding: 20px;
+  @include productFont();
+
+  &--text{
+    font-size: 14px;
+    text-align: center;
+  }
+
+  &--iconBlock{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    
+  }
+
+  &--icon{
+    height: 150px;
+    width: 150px;
+    background-image: url(../../../images/tehwork.svg);
+
+    @include iconPosition();
+  }
+
+}
